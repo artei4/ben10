@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="{{ lang|replace('_','-') }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{% block title %}{{ t.brand }}{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  <style>:root{--primary:{{ themes[theme].primary }};--secondary:{{ themes[theme].secondary }};}</style>
+</head>
+<body class="theme-{{ theme }}">
+<div class="scanlines"></div>
+<header class="topbar">
+  <a class="brand" href="{{ url_for('dashboard') }}">◉ {{ t.brand }}</a>
+  {% if user %}
+  <nav>
+    <a href="{{ url_for('dashboard') }}">{{ t.dashboard }}</a>
+    <a href="{{ url_for('aliens') }}">{{ t.aliens }}</a>
+    <a href="{{ url_for('settings') }}">⚙ {{ t.settings }}</a>
+    <a href="{{ url_for('logout') }}">↪ {{ t.logout }}</a>
+  </nav>
+  {% endif %}
+</header>
+{% block content %}{% endblock %}
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

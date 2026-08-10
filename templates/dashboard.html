@@ -1,0 +1,32 @@
+{% extends "base.html" %}{% block title %}{{ t.dashboard }} — {{ t.brand }}{% endblock %}
+{% block content %}
+<main class="workspace">
+  <aside class="sidebar">
+    <div class="folder">OMNITRIX_OS</div>
+    <a class="active" href="{{ url_for('dashboard') }}">⌂ {{ t.dashboard }}</a>
+    <a href="{{ url_for('aliens') }}">🧬 {{ t.aliens }}</a>
+    <a href="{{ url_for('settings') }}">⚙ {{ t.settings }}</a>
+  </aside>
+  <section class="content">
+    <div class="terminal-line">&gt; system.status = <span>{{ t.online }}</span></div>
+    <h1>{{ t.welcome }}</h1>
+    <form class="searchbar" action="{{ url_for('aliens') }}">
+      <span>⌕</span><input name="q" placeholder="{{ t.search_placeholder }}">
+      <button>{{ t.search }}</button>
+    </form>
+    <h2>{{ t.recent }}</h2>
+    <div class="alien-grid">
+      {% for alien in recent %}
+      <a class="alien-card" href="{{ url_for('alien_detail', slug=alien.slug) }}">
+        <div class="alien-art {{ alien.slug }}">
+          <img src="{{ url_for('static', filename='images/' ~ alien.image) }}"
+            alt="{{ alien_names.get(alien.slug, alien.name) }}">
+        </div>
+        <strong>{{ alien_names.get(alien.slug, alien.name) }}</strong>
+        <small>{{ alien.species }}</small>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+</main>
+{% endblock %}

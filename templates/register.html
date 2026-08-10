@@ -1,0 +1,17 @@
+{% extends "base.html" %}{% block title %}{{ t.register }} — {{ t.brand }}{% endblock %}
+{% block content %}
+<main class="auth-screen">
+  <section class="auth-panel">
+    <div class="omni-core"><span>DNA</span></div>
+    <div class="status">{{ t.online }}</div>
+    <h1>{{ t.create_account }}</h1>
+    {% if error %}<div class="alert">{{ t[error] }}</div>{% endif %}
+    <form method="post">
+      <label>{{ t.username }}</label><input name="username" minlength="3" required>
+      <label>{{ t.password }}</label><input type="password" name="password" minlength="4" required>
+      <button class="omni-button" type="submit">{{ t.register }}</button>
+    </form>
+    <a class="sub-link" href="{{ url_for('login') }}">{{ t.back }}</a>
+  </section>
+</main>
+{% endblock %}

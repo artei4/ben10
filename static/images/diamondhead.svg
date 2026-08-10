@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800">
+    <rect width="100%" height="100%" fill="#070908"/>
+    <circle cx="300" cy="360" r="190" fill="#163800" stroke="#9cff00" stroke-width="8"/>
+    <text x="300" y="380" text-anchor="middle" fill="#9cff00" font-size="58" font-family="monospace" font-weight="bold">DIAMOND</text>
+    </svg>

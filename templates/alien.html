@@ -1,0 +1,36 @@
+{% extends "base.html" %}{% block title %}{{ alien_names.get(alien.slug, alien.name) }} — {{ t.brand }}{% endblock %}
+{% block content %}
+<main class="workspace">
+  <aside class="sidebar">
+    <div class="folder">DNA_SIGNATURE</div>
+    <a href="{{ url_for('dashboard') }}">⌂ {{ t.dashboard }}</a>
+    <a href="{{ url_for('aliens') }}">🧬 {{ t.aliens }}</a>
+    <a href="{{ url_for('settings') }}">⚙ {{ t.settings }}</a>
+  </aside>
+  <section class="content alien-page">
+    <div class="terminal-line">&gt; scan("{{ alien_names.get(alien.slug, alien.name) }}") → <span>DNA MATCH</span></div>
+    <div class="alien-header">
+      <div class="large-alien-art {{ alien.slug }}">
+        <img src="{{ url_for('static', filename='images/' ~ alien.image) }}"
+          alt="{{ alien_names.get(alien.slug, alien.name) }}">
+      </div>
+      <div>
+        <div class="status">DNA SIGNATURE DETECTED</div>
+        <h1>{{ alien_names.get(alien.slug, alien.name) }}</h1>
+        <h3>{{ alien.species }}</h3>
+        <p>{{ alien['description_' + lang[:2]] }}</p>
+      </div>
+    </div>
+    <div class="info-grid">
+      <div class="info-box"><label>{{ t.species }}</label><strong>{{ alien.species }}</strong></div>
+      <div class="info-box"><label>{{ t.homeworld }}</label><strong>{{ alien.homeworld }}</strong></div>
+      <div class="info-box"><label>{{ t.series }}</label><strong>{{ alien.series }}</strong></div>
+      <div class="info-box"><label>{{ t.first_appearance }}</label><strong>{{ alien.first_appearance }}</strong></div>
+    </div>
+    <div class="two-columns">
+      <section class="data-box"><h2>{{ t.abilities }}</h2><ul>{% for x in alien['abilities_' + lang[:2]].split('|') %}<li>{{ x }}</li>{% endfor %}</ul></section>
+      <section class="data-box"><h2>{{ t.weaknesses }}</h2><ul>{% for x in alien['weaknesses_' + lang[:2]].split('|') %}<li>{{ x }}</li>{% endfor %}</ul></section>
+    </div>
+  </section>
+</main>
+{% endblock %}

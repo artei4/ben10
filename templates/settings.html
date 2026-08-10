@@ -1,0 +1,23 @@
+{% extends "base.html" %}{% block title %}{{ t.settings }} — {{ t.brand }}{% endblock %}
+{% block content %}
+<main class="workspace">
+  <aside class="sidebar"><div class="folder">SETTINGS</div><a href="{{ url_for('dashboard') }}">⌂ {{ t.dashboard }}</a><a href="{{ url_for('aliens') }}">🧬 {{ t.aliens }}</a><a class="active" href="{{ url_for('settings') }}">⚙ {{ t.settings }}</a></aside>
+  <section class="content">
+    <h1>{{ t.settings }}</h1>
+    <form class="settings-panel" method="post">
+      <label>{{ t.language }}</label>
+      <select name="lang">
+        <option value="pt_BR" {% if lang=="pt_BR" %}selected{% endif %}>🇧🇷 Português</option>
+        <option value="en_US" {% if lang=="en_US" %}selected{% endif %}>🇺🇸 English</option>
+        <option value="es_ES" {% if lang=="es_ES" %}selected{% endif %}>🇪🇸 Español</option>
+        <option value="fr_FR" {% if lang=="fr_FR" %}selected{% endif %}>🇫🇷 Français</option>
+      </select>
+      <label>{{ t.theme }}</label>
+      <select name="theme">
+        {% for key, item in themes.items() %}<option value="{{ key }}" {% if theme==key %}selected{% endif %}>{{ item.name }}</option>{% endfor %}
+      </select>
+      <button class="omni-button" type="submit">APPLY</button>
+    </form>
+  </section>
+</main>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}{% block title %}{{ t.aliens }} — {{ t.brand }}{% endblock %}
+{% block content %}
+<main class="workspace">
+  <aside class="sidebar">
+    <div class="folder">DATABASE</div>
+    <a href="{{ url_for('dashboard') }}">⌂ {{ t.dashboard }}</a>
+    <a class="active" href="{{ url_for('aliens') }}">🧬 {{ t.aliens }}</a>
+    <a href="{{ url_for('settings') }}">⚙ {{ t.settings }}</a>
+  </aside>
+  <section class="content">
+    <h1>{{ t.aliens }}</h1>
+    <form class="searchbar" action="{{ url_for('aliens') }}">
+      <span>⌕</span><input name="q" value="{{ q }}" placeholder="{{ t.search_placeholder }}">
+      <button>{{ t.search }}</button>
+    </form>
+    <div class="alien-grid">
+      {% for alien in aliens %}
+      <a class="alien-card" href="{{ url_for('alien_detail', slug=alien.slug) }}">
+        <div class="alien-art {{ alien.slug }}">
+          <img src="{{ url_for('static', filename='images/' ~ alien.image) }}"
+            alt="{{ alien_names.get(alien.slug, alien.name) }}">
+        </div>
+        <strong>{{ alien_names.get(alien.slug, alien.name) }}</strong>
+        <small>{{ alien.species }}</small>
+      </a>
+      {% else %}
+      <div class="empty">No DNA signatures found.</div>
+      {% endfor %}
+    </div>
+  </section>
+</main>
+{% endblock %}
