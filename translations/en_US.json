@@ -28,5 +28,21 @@
   "invalid_register": "Invalid username or password.",
   "user_exists": "That username already exists.",
   "create_account": "Create account",
-  "back": "Back"
+  "back": "Back",
+  "alien_names": {
+    "heatblast": "Heatblast",
+    "four-arms": "Four Arms",
+    "diamondhead": "Diamondhead",
+    "xlr8": "XLR8",
+    "ghostfreak": "Ghostfreak",
+    "upgrade": "Upgrade"
+  },
+  "homeworld_names": {
+    "heatblast": "Pyros",
+    "four-arms": "Khoros",
+    "diamondhead": "Petropia",
+    "xlr8": "Kinet",
+    "ghostfreak": "Anur Phaetos",
+    "upgrade": "Galvan B"
+  }
 }

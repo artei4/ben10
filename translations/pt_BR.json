@@ -28,5 +28,21 @@
   "invalid_register": "Usuário ou senha inválidos.",
   "user_exists": "Esse usuário já existe.",
   "create_account": "Criar conta",
-  "back": "Voltar"
+  "back": "Voltar",
+  "alien_names": {
+    "heatblast": "Chama",
+    "four-arms": "Quatro Braços",
+    "diamondhead": "Diamante",
+    "xlr8": "XLR8",
+    "ghostfreak": "Fantasmático",
+    "upgrade": "Ultra T"
+  },
+  "homeworld_names": {
+    "heatblast": "Pyros",
+    "four-arms": "Khoros",
+    "diamondhead": "Petropia",
+    "xlr8": "Kinet",
+    "ghostfreak": "Anur Phaetos",
+    "upgrade": "Galvan B"
+  }
 }

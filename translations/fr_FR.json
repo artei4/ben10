@@ -28,5 +28,21 @@
   "invalid_register": "Nom d'utilisateur ou mot de passe invalide.",
   "user_exists": "Cet utilisateur existe déjà.",
   "create_account": "Créer un compte",
-  "back": "Retour"
+  "back": "Retour",
+  "alien_names": {
+    "heatblast": "Inferno",
+    "four-arms": "Quad",
+    "diamondhead": "Incassable",
+    "xlr8": "AXLR",
+    "ghostfreak": "Spectral",
+    "upgrade": "Biotech"
+  },
+  "homeworld_names": {
+    "heatblast": "Pyros",
+    "four-arms": "Khoros",
+    "diamondhead": "Petropia",
+    "xlr8": "Kinet",
+    "ghostfreak": "Anur Phaetos",
+    "upgrade": "Galvan B"
+  }
 }

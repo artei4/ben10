@@ -18,40 +18,6 @@ THEMES = {
     "benirado": {"name": "Ben Irado", "primary": "#ff4b35", "secondary": "#3b0803"},
     "fantasmatico": {"name": "Fantasmático", "primary": "#b85cff", "secondary": "#170820"},
 }
-ALIEN_NAMES = {
-    "pt_BR": {
-        "heatblast": "Chama",
-        "four-arms": "Quatro Braços",
-        "diamondhead": "Diamante",
-        "xlr8": "XLR8",
-        "ghostfreak": "Fantasmático",
-        "upgrade": "Ultra T",
-    },
-    "en_US": {
-        "heatblast": "Heatblast",
-        "four-arms": "Four Arms",
-        "diamondhead": "Diamondhead",
-        "xlr8": "XLR8",
-        "ghostfreak": "Ghostfreak",
-        "upgrade": "Upgrade",
-    },
-    "es_ES": {
-        "heatblast": "Fuego",
-        "four-arms": "Cuatrobrazos",
-        "diamondhead": "Diamante",
-        "xlr8": "XLR8",
-        "ghostfreak": "Fantasmático",
-        "upgrade": "Ultra-T",
-    },
-    "fr_FR": {
-        "heatblast": "Inferno",
-        "four-arms": "Quad",
-        "diamondhead": "Incassable",
-        "xlr8": "AXLR",
-        "ghostfreak": "Spectral",
-        "upgrade": "Biotech",
-    },
-}
 
 def db():
     conn = sqlite3.connect(DB_PATH)
@@ -220,7 +186,6 @@ def inject_globals():
         "lang": lang,
         "theme": theme,
         "themes": THEMES,
-        "alien_names": ALIEN_NAMES.get(lang, ALIEN_NAMES["pt_BR"]),
         "user": session.get("username")
     }
 
@@ -271,6 +236,8 @@ def logout():
 
 @app.route("/dashboard")
 def dashboard():
+    if "username" not in session:
+        return redirect(url_for("login"))
     conn = db()
     recent = conn.execute("SELECT * FROM aliens ORDER BY id LIMIT 6").fetchall()
     conn.close()
@@ -278,6 +245,8 @@ def dashboard():
 
 @app.route("/aliens")
 def aliens():
+    if "username" not in session:
+        return redirect(url_for("login"))
     q = request.args.get("q", "").strip()
     conn = db()
     if q:
@@ -293,6 +262,8 @@ def aliens():
 
 @app.route("/alien/<slug>")
 def alien_detail(slug):
+    if "username" not in session:
+        return redirect(url_for("login"))
     conn = db()
     alien = conn.execute("SELECT * FROM aliens WHERE slug = ?", (slug,)).fetchone()
     conn.close()
@@ -302,23 +273,14 @@ def alien_detail(slug):
 
 @app.route("/settings", methods=["GET", "POST"])
 def settings():
-    # Personalização disponível apenas para usuários autenticados.
-    if "username" not in session:
-        return redirect(url_for("login"))
-
     if request.method == "POST":
         lang = request.form.get("lang", "pt_BR")
         theme = request.form.get("theme", "classic")
-
         if lang in {"pt_BR", "en_US", "es_ES", "fr_FR"}:
             session["lang"] = lang
-
-        # Inclui o tema exclusivo Fantasmático para usuários logados.
         if theme in THEMES:
             session["theme"] = theme
-
         return redirect(request.referrer or url_for("dashboard"))
-
     return render_template("settings.html")
 
 @app.route("/api/aliens")
