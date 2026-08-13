@@ -33,8 +33,8 @@ O banco `database/omnitrix.db` é criado automaticamente.
 
 A primeira tela permite criar uma conta. O login usa hash de senha.
 
-## Idiomas
-- pt_BR
+## Idiomas (foram todos atualizados e agora estão funcionandos)
+- pt_BR 
 - en_US
 - es_ES
 - fr_FR
@@ -42,16 +42,16 @@ A primeira tela permite criar uma conta. O login usa hash de senha.
 ## Temas
 - Ben 10 Classic
 - Ben 23
-- Ben 10,000
 - Ben Irado
 - Fantasmático
 
 ## Próximas etapas sugeridas
-1. Trocar placeholders por artes.
-2. Aumentar o banco para todos os aliens.
-3. Criar filtros por série, espécie, poder e planeta.
-4. Criar páginas dos diferentes Bens.
-5. Criar animações reais do Omnitrix.
-6. Criar modo ambiente/background por alien.
-7. Adicionar administração para cadastrar/editar aliens.
-8. Melhorar autenticação e segurança antes de publicar.
+1. Trocar placeholders por artes. (urgente)
+2. Aumentar o banco para todos os aliens. 
+3. Criar filtros por série, espécie, poder e planeta. (já criei os das séries)
+4. Criar páginas dos diferentes Bens. (temos alguns temas personalizados, mas fazer parecidos com os aliens)
+5. Criar animações reais do Omnitrix. (so tentar)
+6. Criar modo ambiente/background por alien. (maneira ideia)
+7. Adicionar administração para cadastrar/editar aliens. (não)
+8. Melhorar autenticação e segurança antes de publicar. (aprender ainda)
+9. Criar algum botão para sair da tela das estatísticas dos aliens e voltar a pagina anterior
