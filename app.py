@@ -14,8 +14,7 @@ app.secret_key = "CHANGE_THIS_SECRET_KEY"
 THEMES = {
     "classic": {"name": "Ben 10 Classic", "primary": "#9cff00", "secondary": "#163800"},
     "ben23": {"name": "Ben 23", "primary": "#28a9ff", "secondary": "#06263b"},
-    "ben10000": {"name": "Ben 10,000", "primary": "#ffd34d", "secondary": "#3a2b00"},
-    "benirado": {"name": "Ben Irado", "primary": "#ff4b35", "secondary": "#3b0803"},
+    "benirado": {"name": "Ben Irado", "primary": "#ff8c00", "secondary": "#3b1a03"},
     "fantasmatico": {"name": "Fantasmático", "primary": "#b85cff", "secondary": "#170820"},
 }
 
@@ -24,6 +23,41 @@ ALIEN_COLLECTIONS = (
     {"slug": "alien-force", "series": "Ben 10: Alien Force", "title_key": "alien_force_aliens", "description_key": "alien_force_aliens_description"},
     {"slug": "ultimate-alien", "series": "Ben 10: Ultimate Alien", "title_key": "ultimate_alien_aliens", "description_key": "ultimate_alien_aliens_description"},
     {"slug": "omniverse", "series": "Ben 10: Omniverse", "title_key": "omniverse_aliens", "description_key": "omniverse_aliens_description"},
+)
+
+ADDITIONAL_ALIENS = (
+    {
+        "slug": "humungousaur", "name": "Humungousaur", "species": "Vaxasaurian", "homeworld": "Terradino",
+        "series": "Ben 10: Alien Force", "first_appearance": "Ben 10 Returns: Part 1", "image": None,
+        "description_pt": "Um Vaxassauriano capaz de aumentar de tamanho e força durante o combate.",
+        "description_en": "A Vaxasaurian able to grow in size and strength during combat.",
+        "description_es": "Un Vaxasauriano capaz de aumentar su tamaño y fuerza durante el combate.",
+        "description_fr": "Un Vaxasaurien capable d'augmenter sa taille et sa force au combat.",
+        "abilities_pt": "Superforça|Crescimento corporal|Resistência|Golpes poderosos",
+        "abilities_en": "Super strength|Body growth|Durability|Powerful strikes",
+        "abilities_es": "Superfuerza|Crecimiento corporal|Resistencia|Golpes poderosos",
+        "abilities_fr": "Super-force|Croissance corporelle|Résistance|Coups puissants",
+        "weaknesses_pt": "Menor agilidade quando gigante|Alvos pequenos podem ser difíceis de acertar",
+        "weaknesses_en": "Less agile when gigantic|Small targets can be difficult to hit",
+        "weaknesses_es": "Menor agilidad cuando es gigante|Los objetivos pequeños pueden ser difíciles de golpear",
+        "weaknesses_fr": "Moins agile lorsqu'il est géant|Les petites cibles peuvent être difficiles à atteindre",
+    },
+    {
+        "slug": "rath", "name": "Rath", "species": "Appoplexian", "homeworld": "Appoplexia",
+        "series": "Ben 10: Alien Force", "first_appearance": "Con of Rath", "image": None,
+        "description_pt": "Um Appoplexiano felino extremamente forte, agressivo e especialista em combate corpo a corpo.",
+        "description_en": "An exceptionally strong and aggressive feline Appoplexian who excels at hand-to-hand combat.",
+        "description_es": "Un Appoplexiano felino extremadamente fuerte y agresivo, experto en combate cuerpo a cuerpo.",
+        "description_fr": "Un Appoplexien félin extrêmement fort et agressif, expert du combat au corps à corps.",
+        "abilities_pt": "Superforça|Garras afiadas|Agilidade|Combate corpo a corpo",
+        "abilities_en": "Super strength|Sharp claws|Agility|Hand-to-hand combat",
+        "abilities_es": "Superfuerza|Garras afiladas|Agilidad|Combate cuerpo a cuerpo",
+        "abilities_fr": "Super-force|Griffes acérées|Agilité|Combat au corps à corps",
+        "weaknesses_pt": "Impulsividade|Pode agir sem estratégia",
+        "weaknesses_en": "Impulsiveness|Can act without a strategy",
+        "weaknesses_es": "Impulsividad|Puede actuar sin estrategia",
+        "weaknesses_fr": "Impulsivité|Peut agir sans stratégie",
+    },
 )
 
 def db():
@@ -175,6 +209,12 @@ def init_db():
             cols = ", ".join(a.keys())
             placeholders = ", ".join(["?"] * len(a))
             conn.execute(f"INSERT INTO aliens ({cols}) VALUES ({placeholders})", tuple(a.values()))
+    for alien in ADDITIONAL_ALIENS:
+        cols = ", ".join(alien.keys())
+        placeholders = ", ".join(["?"] * len(alien))
+        conn.execute(
+            f"INSERT OR IGNORE INTO aliens ({cols}) VALUES ({placeholders})", tuple(alien.values())
+        )
     conn.commit()
     conn.close()
 
@@ -188,6 +228,8 @@ def load_translations(lang):
 def inject_globals():
     lang = session.get("lang", "pt_BR")
     theme = session.get("theme", "classic")
+    if theme not in THEMES:
+        theme = "classic"
     return {
         "t": load_translations(lang),
         "lang": lang,

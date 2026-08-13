@@ -35,7 +35,9 @@
     "diamondhead": "Incassable",
     "xlr8": "AXLR",
     "ghostfreak": "Spectral",
-    "upgrade": "Biotech"
+    "upgrade": "Biotech",
+    "humungousaur": "Enormosaure",
+    "rath": "Bengalosaure"
   },
   "homeworld_names": {
     "heatblast": "Pyros",
@@ -43,7 +45,9 @@
     "diamondhead": "Petropia",
     "xlr8": "Kinet",
     "ghostfreak": "Anur Phaetos",
-    "upgrade": "Galvan B"
+    "upgrade": "Galvan B",
+    "humungousaur": "Terradino",
+    "rath": "Appoplexia"
   },
   "select_collection": "Sélectionner une collection",
   "select_collection_description": "Choisissez une série pour accéder à ses signatures ADN.",

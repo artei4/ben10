@@ -35,7 +35,9 @@
     "diamondhead": "Diamante",
     "xlr8": "XLR8",
     "ghostfreak": "Fantasmático",
-    "upgrade": "Ultra T"
+    "upgrade": "Ultra T",
+    "humungousaur": "Enormossauro",
+    "rath": "Rath"
   },
   "homeworld_names": {
     "heatblast": "Pyros",
@@ -43,7 +45,9 @@
     "diamondhead": "Petropia",
     "xlr8": "Kinet",
     "ghostfreak": "Anur Phaetos",
-    "upgrade": "Galvan B"
+    "upgrade": "Galvan B",
+    "humungousaur": "Terradino",
+    "rath": "Appoplexia"
   },
   "select_collection": "Selecionar coleção",
   "select_collection_description": "Escolha uma série para acessar suas assinaturas de DNA.",
