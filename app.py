@@ -49,10 +49,10 @@ ADDITIONAL_ALIENS = (
         "description_en": "An exceptionally strong and aggressive feline Appoplexian who excels at hand-to-hand combat.",
         "description_es": "Un Appoplexiano felino extremadamente fuerte y agresivo, experto en combate cuerpo a cuerpo.",
         "description_fr": "Un Appoplexien félin extrêmement fort et agressif, expert du combat au corps à corps.",
-        "abilities_pt": "Superforça|Garras afiadas|Agilidade|Combate corpo a corpo",
-        "abilities_en": "Super strength|Sharp claws|Agility|Hand-to-hand combat",
-        "abilities_es": "Superfuerza|Garras afiladas|Agilidad|Combate cuerpo a cuerpo",
-        "abilities_fr": "Super-force|Griffes acérées|Agilité|Combat au corps à corps",
+        "abilities_pt": "Eu vou te mandar a real|Superforça|Garras afiadas|Agilidade|Combate corpo a corpo",
+        "abilities_en": "Let me tell you something|Super strength|Sharp claws|Agility|Hand-to-hand combat",
+        "abilities_es": "Déjame decirte algo|Superfuerza|Garras afiladas|Agilidad|Combate cuerpo a cuerpo",
+        "abilities_fr": "Laissez-moi vous dire quelque chose|Super-force|Griffes acérées|Agilité|Combat au corps à corps",
         "weaknesses_pt": "Impulsividade|Pode agir sem estratégia",
         "weaknesses_en": "Impulsiveness|Can act without a strategy",
         "weaknesses_es": "Impulsividad|Puede actuar sin estrategia",
@@ -215,6 +215,13 @@ def init_db():
         conn.execute(
             f"INSERT OR IGNORE INTO aliens ({cols}) VALUES ({placeholders})", tuple(alien.values())
         )
+    rath = next(alien for alien in ADDITIONAL_ALIENS if alien["slug"] == "rath")
+    conn.execute(
+        """UPDATE aliens
+        SET abilities_pt = ?, abilities_en = ?, abilities_es = ?, abilities_fr = ?
+        WHERE slug = 'rath'""",
+        (rath["abilities_pt"], rath["abilities_en"], rath["abilities_es"], rath["abilities_fr"]),
+    )
     conn.commit()
     conn.close()
 
