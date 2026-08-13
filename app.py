@@ -60,6 +60,38 @@ ADDITIONAL_ALIENS = (
     },
 )
 
+ULTIMATE_FORMS = {
+    "humungousaur": {
+        "names": {"pt_BR": "Enormossauro Supremo", "en_US": "Ultimate Humungousaur", "es_ES": "Humungosaurio Supremo", "fr_FR": "Enormosaure Suprême"},
+        "species": {"pt_BR": "Vaxassauriano Evoluído", "en_US": "Evolved Vaxasaurian", "es_ES": "Vaxasauriano Evolucionado", "fr_FR": "Vaxasaurien évolué"},
+        "descriptions": {
+            "pt_BR": "Uma evolução de combate do Enormossauro, coberta por armadura pesada e capaz de transformar as mãos em canhões.",
+            "en_US": "A combat evolution of Humungousaur, covered in heavy armor and able to turn its hands into cannons.",
+            "es_ES": "Una evolución de combate de Humungosaurio, cubierta de armadura pesada y capaz de convertir sus manos en cañones.",
+            "fr_FR": "Une évolution de combat d'Enormosaure, couverte d'une armure lourde et capable de transformer ses mains en canons.",
+        },
+        "abilities": {
+            "pt_BR": "Superforça ampliada|Canhões nas mãos|Mísseis de fragmentos ósseos|Armadura reforçada|Cauda com maça",
+            "en_US": "Enhanced super strength|Hand cannons|Unstable bone-fragment missiles|Reinforced armor|Mace tail",
+            "es_ES": "Superfuerza mejorada|Cañones en las manos|Misiles de fragmentos óseos|Armadura reforzada|Cola con maza",
+            "fr_FR": "Super-force accrue|Canons dans les mains|Missiles de fragments osseux|Armure renforcée|Queue en massue",
+        },
+        "weaknesses": {
+            "pt_BR": "Não pode aumentar de tamanho|Menor mobilidade devido à armadura",
+            "en_US": "Cannot grow in size|Reduced mobility because of its armor",
+            "es_ES": "No puede aumentar de tamaño|Movilidad reducida por su armadura",
+            "fr_FR": "Ne peut pas grandir|Mobilité réduite à cause de son armure",
+        },
+        "first_appearances": {"pt_BR": "A Batalha Final — Parte 1", "en_US": "The Final Battle: Part 1", "es_ES": "La Batalla Final: Parte 1", "fr_FR": "La Bataille Finale : Partie 1"},
+        "scenarios": {
+            "pt_BR": "A Ultimatrix submeteu o DNA Vaxassauriano a milhões de anos teóricos de batalhas e condições extremas, favorecendo armadura, armas biológicas e força de combate.",
+            "en_US": "The Ultimatrix subjected Vaxasaurian DNA to millions of theoretical years of battle and extreme conditions, favoring armor, biological weapons, and combat strength.",
+            "es_ES": "La Ultimatrix sometió el ADN Vaxasauriano a millones de años teóricos de batallas y condiciones extremas, favoreciendo armadura, armas biológicas y fuerza de combate.",
+            "fr_FR": "L'Ultimatrix a soumis l'ADN vaxasaurien à des millions d'années théoriques de batailles et de conditions extrêmes, favorisant l'armure, les armes biologiques et la force de combat.",
+        },
+    }
+}
+
 def db():
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
@@ -357,7 +389,8 @@ def alien_detail(slug):
     conn.close()
     if not alien:
         return "Alien not found", 404
-    return render_template("alien.html", alien=alien)
+    ultimate_form = ULTIMATE_FORMS.get(slug) if request.args.get("form") == "ultimate" else None
+    return render_template("alien.html", alien=alien, ultimate_form=ultimate_form)
 
 @app.route("/settings", methods=["GET", "POST"])
 def settings():

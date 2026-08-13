@@ -59,6 +59,9 @@
     "humungousaur": "El Regreso de Ben 10: Parte 1",
     "rath": "El Engaño de Rath"
   },
+  "activate_ultimate": "ACTIVAR FORMA SUPREMA",
+  "normal_form": "VOLVER A LA FORMA NORMAL",
+  "evolution_scenario": "Escenario de evolución",
   "select_collection": "Seleccionar colección",
   "select_collection_description": "Elige una serie para acceder a sus firmas de ADN.",
   "all_collections": "Todas las colecciones",

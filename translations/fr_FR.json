@@ -59,6 +59,9 @@
     "humungousaur": "Le Retour de Ben 10 : Partie 1",
     "rath": "Le Coup de Rath"
   },
+  "activate_ultimate": "ACTIVER LA FORME SUPRÊME",
+  "normal_form": "REVENIR À LA FORME NORMALE",
+  "evolution_scenario": "Scénario d'évolution",
   "select_collection": "Sélectionner une collection",
   "select_collection_description": "Choisissez une série pour accéder à ses signatures ADN.",
   "all_collections": "Toutes les collections",

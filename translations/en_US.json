@@ -59,6 +59,9 @@
     "humungousaur": "Ben 10 Returns: Part 1",
     "rath": "Con of Rath"
   },
+  "activate_ultimate": "ACTIVATE ULTIMATE FORM",
+  "normal_form": "RETURN TO NORMAL FORM",
+  "evolution_scenario": "Evolution scenario",
   "select_collection": "Select collection",
   "select_collection_description": "Choose a series to access its DNA signatures.",
   "all_collections": "All collections",
