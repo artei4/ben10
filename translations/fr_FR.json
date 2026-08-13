@@ -49,6 +49,16 @@
     "humungousaur": "Terradino",
     "rath": "Appoplexia"
   },
+  "first_appearance_names": {
+    "heatblast": "Et ils ne furent plus que 10",
+    "four-arms": "Et ils ne furent plus que 10",
+    "diamondhead": "Et ils ne furent plus que 10",
+    "xlr8": "Et ils ne furent plus que 10",
+    "ghostfreak": "Retraite permanente",
+    "upgrade": "Retraite permanente",
+    "humungousaur": "Le Retour de Ben 10 : Partie 1",
+    "rath": "Le Coup de Rath"
+  },
   "select_collection": "Sélectionner une collection",
   "select_collection_description": "Choisissez une série pour accéder à ses signatures ADN.",
   "all_collections": "Toutes les collections",

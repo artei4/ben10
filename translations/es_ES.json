@@ -49,6 +49,16 @@
     "humungousaur": "Terradino",
     "rath": "Appoplexia"
   },
+  "first_appearance_names": {
+    "heatblast": "Y Entonces Fueron 10",
+    "four-arms": "Y Entonces Fueron 10",
+    "diamondhead": "Y Entonces Fueron 10",
+    "xlr8": "Y Entonces Fueron 10",
+    "ghostfreak": "Retiro Permanente",
+    "upgrade": "Retiro Permanente",
+    "humungousaur": "El Regreso de Ben 10: Parte 1",
+    "rath": "El Engaño de Rath"
+  },
   "select_collection": "Seleccionar colección",
   "select_collection_description": "Elige una serie para acceder a sus firmas de ADN.",
   "all_collections": "Todas las colecciones",

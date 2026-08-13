@@ -49,6 +49,16 @@
     "humungousaur": "Terradino",
     "rath": "Appoplexia"
   },
+  "first_appearance_names": {
+    "heatblast": "And Then There Were 10",
+    "four-arms": "And Then There Were 10",
+    "diamondhead": "And Then There Were 10",
+    "xlr8": "And Then There Were 10",
+    "ghostfreak": "Permanent Retirement",
+    "upgrade": "Permanent Retirement",
+    "humungousaur": "Ben 10 Returns: Part 1",
+    "rath": "Con of Rath"
+  },
   "select_collection": "Select collection",
   "select_collection_description": "Choose a series to access its DNA signatures.",
   "all_collections": "All collections",

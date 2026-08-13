@@ -49,6 +49,16 @@
     "humungousaur": "Terradino",
     "rath": "Appoplexia"
   },
+  "first_appearance_names": {
+    "heatblast": "E Então Eram 10",
+    "four-arms": "E Então Eram 10",
+    "diamondhead": "E Então Eram 10",
+    "xlr8": "E Então Eram 10",
+    "ghostfreak": "Aposentadoria Permanente",
+    "upgrade": "Aposentadoria Permanente",
+    "humungousaur": "O Retorno de Ben 10 — Parte 1",
+    "rath": "A Trapaça de Rath"
+  },
   "select_collection": "Selecionar coleção",
   "select_collection_description": "Escolha uma série para acessar suas assinaturas de DNA.",
   "all_collections": "Todas as coleções",

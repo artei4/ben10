@@ -22,7 +22,7 @@
       <div class="info-box"><label>{{ t.species }}</label><strong>{{ alien.species }}</strong></div>
       <div class="info-box"><label>{{ t.homeworld }}</label><strong>{{ t.homeworld_names.get(alien.slug, alien.homeworld) }}</strong></div>
       <div class="info-box"><label>{{ t.series }}</label><strong>{{ alien.series }}</strong></div>
-      <div class="info-box"><label>{{ t.first_appearance }}</label><strong>{{ alien.first_appearance }}</strong></div>
+      <div class="info-box"><label>{{ t.first_appearance }}</label><strong>{{ t.first_appearance_names.get(alien.slug, alien.first_appearance) }}</strong></div>
     </div>
     <div class="two-columns">
       <section class="data-box"><h2>{{ t.abilities }}</h2><ul>{% for x in alien['abilities_' + lang[:2]].split('|') %}<li>{{ x }}</li>{% endfor %}</ul></section>
