@@ -82,6 +82,12 @@ ULTIMATE_FORMS = {
             "es_ES": "No puede aumentar de tamaño|Movilidad reducida por su armadura",
             "fr_FR": "Ne peut pas grandir|Mobilité réduite à cause de son armure",
         },
+        "series": {
+            "pt_BR": "Ben 10: Supremacia Alienígena",
+            "en_US": "Ben 10: Ultimate Alien",
+            "es_ES": "Ben 10: Supremacía Alienígena",
+            "fr_FR": "Ben 10 : Ultimate Alien",
+        },
         "first_appearances": {"pt_BR": "A Batalha Final — Parte 1", "en_US": "The Final Battle: Part 1", "es_ES": "La Batalla Final: Parte 1", "fr_FR": "La Bataille Finale : Partie 1"},
         "scenarios": {
             "pt_BR": "A Ultimatrix submeteu o DNA Vaxassauriano a milhões de anos teóricos de batalhas e condições extremas, favorecendo armadura, armas biológicas e força de combate.",

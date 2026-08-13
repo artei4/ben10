@@ -24,7 +24,7 @@
     <div class="info-grid">
       <div class="info-box"><label>{{ t.species }}</label><strong>{{ ultimate_form.species[lang] if ultimate_form else alien.species }}</strong></div>
       <div class="info-box"><label>{{ t.homeworld }}</label><strong>{{ t.homeworld_names.get(alien.slug, alien.homeworld) }}</strong></div>
-      <div class="info-box"><label>{{ t.series }}</label><strong>{{ alien.series }}</strong></div>
+      <div class="info-box"><label>{{ t.series }}</label><strong>{{ ultimate_form.series[lang] if ultimate_form else alien.series }}</strong></div>
       <div class="info-box"><label>{{ t.first_appearance }}</label><strong>{{ ultimate_form.first_appearances[lang] if ultimate_form else t.first_appearance_names.get(alien.slug, alien.first_appearance) }}</strong></div>
     </div>
     {% if ultimate_form %}
