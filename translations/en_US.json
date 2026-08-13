@@ -44,5 +44,20 @@
     "xlr8": "Kinet",
     "ghostfreak": "Anur Phaetos",
     "upgrade": "Galvan B"
-  }
+  },
+  "select_collection": "Select collection",
+  "select_collection_description": "Choose a series to access its DNA signatures.",
+  "all_collections": "All collections",
+  "search_results": "Search results",
+  "no_aliens_found": "No DNA signatures found.",
+  "dna_signatures": "DNA signatures",
+  "coming_soon": "COMING SOON",
+  "classic_aliens": "Classic Aliens",
+  "classic_aliens_description": "The transformations that started the Omnitrix.",
+  "alien_force_aliens": "Alien Force",
+  "alien_force_aliens_description": "Transformations unlocked in Alien Force.",
+  "ultimate_alien_aliens": "Ultimate Alien",
+  "ultimate_alien_aliens_description": "Transformations and their ultimate forms.",
+  "omniverse_aliens": "Omniverse",
+  "omniverse_aliens_description": "Transformations available in Omniverse."
 }

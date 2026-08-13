@@ -1,0 +1,27 @@
+{% extends "base.html" %}{% block title %}{{ t.select_collection }} — {{ t.brand }}{% endblock %}
+{% block content %}
+<main class="workspace">
+  <aside class="sidebar">
+    <div class="folder">DATABASE</div>
+    <a href="{{ url_for('dashboard') }}">⌂ {{ t.dashboard }}</a>
+    <a class="active" href="{{ url_for('aliens') }}">🧬 {{ t.aliens }}</a>
+    <a href="{{ url_for('settings') }}">⚙ {{ t.settings }}</a>
+  </aside>
+  <section class="content">
+    <div class="terminal-line">&gt; {{ t.select_collection }}</div>
+    <h1>{{ t.select_collection }}</h1>
+    <p class="collection-intro">{{ t.select_collection_description }}</p>
+    <div class="alien-grid">
+      {% for collection in collections %}
+      <a class="alien-card{% if collection.count == 0 %} disabled{% endif %}" href="{{ url_for('aliens_by_collection', collection_slug=collection.slug) }}" {% if collection.count == 0 %}aria-disabled="true"{% endif %}>
+        <small>DNA COLLECTION {{ '%02d'|format(loop.index) }}</small>
+        <h2>{{ t[collection.title_key] }}</h2>
+        <p>{{ t[collection.description_key] }}</p>
+        <strong>{{ collection.count }} {{ t.dna_signatures }}</strong>
+        {% if collection.count == 0 %}<small>{{ t.coming_soon }}</small>{% endif %}
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+</main>
+{% endblock %}

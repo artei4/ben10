@@ -19,6 +19,13 @@ THEMES = {
     "fantasmatico": {"name": "Fantasmático", "primary": "#b85cff", "secondary": "#170820"},
 }
 
+ALIEN_COLLECTIONS = (
+    {"slug": "classic", "series": "Ben 10 (Classic)", "title_key": "classic_aliens", "description_key": "classic_aliens_description"},
+    {"slug": "alien-force", "series": "Ben 10: Alien Force", "title_key": "alien_force_aliens", "description_key": "alien_force_aliens_description"},
+    {"slug": "ultimate-alien", "series": "Ben 10: Ultimate Alien", "title_key": "ultimate_alien_aliens", "description_key": "ultimate_alien_aliens_description"},
+    {"slug": "omniverse", "series": "Ben 10: Omniverse", "title_key": "omniverse_aliens", "description_key": "omniverse_aliens_description"},
+)
+
 def db():
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
@@ -248,17 +255,49 @@ def aliens():
     if "username" not in session:
         return redirect(url_for("login"))
     q = request.args.get("q", "").strip()
+    if not q:
+        conn = db()
+        collections = []
+        for collection in ALIEN_COLLECTIONS:
+            count = conn.execute(
+                "SELECT COUNT(*) FROM aliens WHERE series = ?", (collection["series"],)
+            ).fetchone()[0]
+            collections.append({**collection, "count": count})
+        conn.close()
+        return render_template("alien_collections.html", collections=collections)
+
+    conn = db()
+    rows = conn.execute("""
+        SELECT * FROM aliens
+        WHERE name LIKE ? OR species LIKE ? OR homeworld LIKE ? OR series LIKE ?
+        ORDER BY name
+    """, tuple([f"%{q}%"] * 4)).fetchall()
+    conn.close()
+    return render_template("aliens.html", aliens=rows, q=q, collection=None)
+
+@app.route("/aliens/<collection_slug>")
+def aliens_by_collection(collection_slug):
+    if "username" not in session:
+        return redirect(url_for("login"))
+
+    collection = next((item for item in ALIEN_COLLECTIONS if item["slug"] == collection_slug), None)
+    if not collection:
+        return "Collection not found", 404
+
+    q = request.args.get("q", "").strip()
     conn = db()
     if q:
         rows = conn.execute("""
             SELECT * FROM aliens
-            WHERE name LIKE ? OR species LIKE ? OR homeworld LIKE ? OR series LIKE ?
+            WHERE series = ? AND (name LIKE ? OR species LIKE ? OR homeworld LIKE ?)
             ORDER BY name
-        """, tuple([f"%{q}%"] * 4)).fetchall()
+        """, (collection["series"], *([f"%{q}%"] * 3))).fetchall()
     else:
-        rows = conn.execute("SELECT * FROM aliens ORDER BY name").fetchall()
+        rows = conn.execute(
+            "SELECT * FROM aliens WHERE series = ? ORDER BY name", (collection["series"],)
+        ).fetchall()
     conn.close()
-    return render_template("aliens.html", aliens=rows, q=q)
+    return render_template("aliens.html", aliens=rows, q=q, collection=collection)
 
 @app.route("/alien/<slug>")
 def alien_detail(slug):

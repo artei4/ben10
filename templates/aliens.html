@@ -8,8 +8,9 @@
     <a href="{{ url_for('settings') }}">⚙ {{ t.settings }}</a>
   </aside>
   <section class="content">
-    <h1>{{ t.aliens }}</h1>
-    <form class="searchbar" action="{{ url_for('aliens') }}">
+    <a class="back-link" href="{{ url_for('aliens') }}">← {{ t.all_collections }}</a>
+    <h1>{% if collection %}{{ t[collection.title_key] }}{% else %}{{ t.search_results }}{% endif %}</h1>
+    <form class="searchbar" action="{% if collection %}{{ url_for('aliens_by_collection', collection_slug=collection.slug) }}{% else %}{{ url_for('aliens') }}{% endif %}">
       <span>⌕</span><input name="q" value="{{ q }}" placeholder="{{ t.search_placeholder }}">
       <button>{{ t.search }}</button>
     </form>
@@ -20,7 +21,7 @@
         <strong>{{ t.alien_names.get(alien.slug, alien.name) }}</strong><small>{{ alien.species }}</small>
       </a>
       {% else %}
-      <div class="empty">No DNA signatures found.</div>
+      <div class="empty">{{ t.no_aliens_found }}</div>
       {% endfor %}
     </div>
   </section>
