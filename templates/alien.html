@@ -10,7 +10,9 @@
   <section class="content alien-page">
     <div class="terminal-line">&gt; scan("{{ ultimate_form.names[lang] if ultimate_form else t.alien_names.get(alien.slug, alien.name) }}") → <span>DNA MATCH</span></div>
     <div class="alien-header">
-      <div class="large-alien-art {{ alien.slug }}"></div>
+      <div class="large-alien-art">
+        <img src="{{ url_for('static', filename='images/' + alien.image) }}" alt="{{ alien.name }}">
+      </div>
       <div>
         <div class="status">DNA SIGNATURE DETECTED</div>
         <h1>{{ ultimate_form.names[lang] if ultimate_form else t.alien_names.get(alien.slug, alien.name) }}</h1>

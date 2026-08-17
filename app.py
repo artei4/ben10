@@ -177,7 +177,7 @@ def init_db():
             {
                 "slug":"diamondhead","name":"Diamondhead","species":"Petrosapien","homeworld":"Petropia",
                 "series":"Ben 10 (Classic)","first_appearance":"And Then There Were 10",
-                "image":"diamondhead.svg",
+                "image":"diamante.jpg",
                 "description_pt":"Um Petrosapien capaz de criar e controlar estruturas cristalinas extremamente resistentes.",
                 "description_en":"A Petrosapien capable of creating and controlling extremely durable crystal structures.",
                 "description_es":"Un Petrosapien capaz de crear y controlar estructuras cristalinas extremadamente resistentes.",
