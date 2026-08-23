@@ -13,13 +13,16 @@ IMAGE_PAIRS = {
     "upgrade": ("ultrantes.jpg", "ultratdepois.jpg"),
     "humungousaur": ("enormoantes.jpg", "enormossaurodepois.jpeg"),
     "rath": ("rathantes.jpg", "rathdepois.jpeg"),
+    "wildmutt": ("bestantes.jpg", "bestadepois.jpg"),
+    "stinkfly": ("insectoideantes.jpg", "insectoidepois.jpg"),
+    "ripjaws": ("aquaticoantes.jpg", "aquaticodepois.jpg"),
+    "grey-matter": ("massantes.jpg", "massadepois.jpg"),
 }
 
 CLASSIC_ALIENS = [
     {
         "slug": "wildmutt", "name": "Wildmutt", "species": "Vulpimancer", "homeworld": "Vulpin",
-        "series": "Ben 10 (Classic)", "first_appearance": "And Then There Were 10",
-        "image": None,
+        "series": "Ben 10 (Classic)", "first_appearance": "And Then There Were 10", "image": None,
         "description_pt": "Um Vulpimancer quadrúpede que possui sentidos extremamente aguçados e grande capacidade física.",
         "description_en": "A quadrupedal Vulpimancer with extremely sharp senses and great physical ability.",
         "description_es": "Un Vulpimancer cuadrúpedo con sentidos extremadamente agudos y gran capacidad física.",
@@ -35,8 +38,7 @@ CLASSIC_ALIENS = [
     },
     {
         "slug": "grey-matter", "name": "Grey Matter", "species": "Galvan", "homeworld": "Galvan Prime",
-        "series": "Ben 10 (Classic)", "first_appearance": "And Then There Were 10",
-        "image": None,
+        "series": "Ben 10 (Classic)", "first_appearance": "And Then There Were 10", "image": None,
         "description_pt": "Um Galvan pequeno e extremamente inteligente, capaz de analisar e compreender tecnologia complexa.",
         "description_en": "A small and exceptionally intelligent Galvan capable of analyzing and understanding complex technology.",
         "description_es": "Un Galvan pequeño y excepcionalmente inteligente capaz de analizar y comprender tecnología compleja.",
@@ -52,8 +54,7 @@ CLASSIC_ALIENS = [
     },
     {
         "slug": "stinkfly", "name": "Stinkfly", "species": "Lepidopterran", "homeworld": "Lepidopterra",
-        "series": "Ben 10 (Classic)", "first_appearance": "Permanent Retirement",
-        "image": None,
+        "series": "Ben 10 (Classic)", "first_appearance": "Permanent Retirement", "image": None,
         "description_pt": "Um Lepidopterran voador que dispara substâncias pegajosas e pode voar em alta velocidade.",
         "description_en": "A flying Lepidopterran that fires sticky substances and can fly at high speed.",
         "description_es": "Un Lepidopterran volador que dispara sustancias pegajosas y puede volar a gran velocidad.",
@@ -69,8 +70,7 @@ CLASSIC_ALIENS = [
     },
     {
         "slug": "ripjaws", "name": "Ripjaws", "species": "Piscciss Volann", "homeworld": "Piscciss",
-        "series": "Ben 10 (Classic)", "first_appearance": "And Then There Were 10",
-        "image": None,
+        "series": "Ben 10 (Classic)", "first_appearance": "And Then There Were 10", "image": None,
         "description_pt": "Um anfíbio predador extremamente adaptado à água, com mandíbulas poderosas e grande velocidade aquática.",
         "description_en": "An amphibious predator highly adapted to water, with powerful jaws and great aquatic speed.",
         "description_es": "Un depredador anfibio muy adaptado al agua, con mandíbulas poderosas y gran velocidad acuática.",
@@ -115,28 +115,19 @@ def main():
     ensure_column(conn, "supreme_selection_image", "TEXT")
 
     for slug, (selection_image, detail_image) in IMAGE_PAIRS.items():
-        conn.execute(
-            "UPDATE aliens SET selection_image = ?, image = ? WHERE slug = ?",
-            (selection_image, detail_image, slug),
-        )
+        conn.execute("UPDATE aliens SET selection_image = ?, image = ? WHERE slug = ?", (selection_image, detail_image, slug))
 
-    conn.execute(
-        "UPDATE aliens SET supreme_image = ? WHERE slug = 'humungousaur'",
-        ("enormosupremo.jpg",),
-    )
+    conn.execute("UPDATE aliens SET supreme_image = ? WHERE slug = 'humungousaur'", ("enormosupremo.jpg",))
+    conn.execute("UPDATE aliens SET supreme_image = ? WHERE slug = 'wildmutt'", ("bestasupremo.jpg",))
     insert_missing_classic(conn)
     conn.commit()
 
     print("Migração concluída com sucesso.")
     print("\nImagens atuais:")
-    for row in conn.execute(
-        "SELECT slug, selection_image, image, supreme_selection_image, supreme_image FROM aliens ORDER BY id"
-    ):
+    for row in conn.execute("SELECT slug, selection_image, image, supreme_selection_image, supreme_image FROM aliens ORDER BY id"):
         print(f"{row[0]}: {row[1]} -> {row[2]} | supremo: {row[3]} -> {row[4]}")
 
-    classic_count = conn.execute(
-        "SELECT COUNT(*) FROM aliens WHERE series = 'Ben 10 (Classic)'"
-    ).fetchone()[0]
+    classic_count = conn.execute("SELECT COUNT(*) FROM aliens WHERE series = 'Ben 10 (Classic)'").fetchone()[0]
     print(f"\nAliens cadastrados na série clássica: {classic_count}")
     conn.close()
 
