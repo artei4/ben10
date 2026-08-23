@@ -5,6 +5,7 @@
 {% set transition_image = alien.supreme_image if alien.slug == 'humungousaur' and not ultimate_form else '' %}
 {% set return_to = request.args.get('return_to', '') %}
 {% if not return_to.startswith('/') %}{% set return_to = url_for('aliens') %}{% endif %}
+{% set translated_series = ultimate_form.series[lang] if ultimate_form else t.series_names.get(alien.series, alien.series) %}
 <main class="workspace">
   <aside class="sidebar">
     <div class="folder">DNA_SIGNATURE</div>
@@ -32,7 +33,7 @@
     <div class="info-grid">
       <div class="info-box"><label>{{ t.species }}</label><strong>{{ ultimate_form.species[lang] if ultimate_form else t.species_names.get(alien.slug, alien.species) }}</strong></div>
       <div class="info-box"><label>{{ t.homeworld }}</label><strong>{{ t.homeworld_names.get(alien.slug, alien.homeworld) }}</strong></div>
-      <div class="info-box"><label>{{ t.series }}</label><strong>{{ ultimate_form.series[lang] if ultimate_form else alien.series }}</strong></div>
+      <div class="info-box"><label>{{ t.series }}</label><strong>{{ translated_series }}</strong></div>
       <div class="info-box"><label>{{ t.first_appearance }}</label><strong>{{ ultimate_form.first_appearances[lang] if ultimate_form else t.first_appearance_names.get(alien.slug, alien.first_appearance) }}</strong></div>
     </div>
     {% if ultimate_form %}<section class="data-box"><h2>{{ t.evolution_scenario }}</h2><p>{{ ultimate_form.scenarios[lang] }}</p></section>{% endif %}
