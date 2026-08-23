@@ -6,7 +6,7 @@
     <div class="status">{{ t.online }}</div>
     <h1>{{ t.create_account }}</h1>
     {% if error %}<div class="alert">{{ t[error] }}</div>{% endif %}
-    <form method="post">
+    <form method="post" class="auth-redirect-form" data-success-url="{{ url_for('aliens') }}">
       <label>{{ t.username }}</label><input name="username" minlength="3" required>
       <label>{{ t.password }}</label><input type="password" name="password" minlength="4" required>
       <button class="omni-button" type="submit">{{ t.register }}</button>
