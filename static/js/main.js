@@ -45,4 +45,32 @@ document.addEventListener("DOMContentLoaded", () => {
       else window.location.href = button.dataset.goBack;
     });
   });
+
+  document.querySelectorAll(".auth-redirect-form").forEach(form => {
+    form.addEventListener("submit", async event => {
+      event.preventDefault();
+      const button = form.querySelector("button[type='submit']");
+      if (button) button.disabled = true;
+      try {
+        const response = await fetch(form.action || window.location.href, {
+          method: "POST",
+          body: new FormData(form),
+          credentials: "same-origin",
+          redirect: "follow"
+        });
+        if (response.redirected && new URL(response.url).pathname === "/dashboard") {
+          window.location.href = form.dataset.successUrl || "/aliens";
+          return;
+        }
+        const html = await response.text();
+        document.open();
+        document.write(html);
+        document.close();
+      } catch (error) {
+        form.submit();
+      } finally {
+        if (button) button.disabled = false;
+      }
+    });
+  });
 });
