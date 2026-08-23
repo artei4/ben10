@@ -16,7 +16,7 @@
     </form>
     <div class="alien-grid">
       {% for alien in aliens %}
-      <a class="alien-card" href="{{ url_for('alien_detail', slug=alien.slug) }}">
+      <a class="alien-card" href="{{ url_for('alien_detail', slug=alien.slug) }}" data-alien-name="{{ t.alien_names.get(alien.slug, alien.name) }}" aria-label="{{ t.alien_names.get(alien.slug, alien.name) }}">
         <div class="alien-art">
           <img src="{{ url_for('static', filename='images/' + alien.image) }}" alt="{{ alien.name }}">
         </div>
