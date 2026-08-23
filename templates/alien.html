@@ -1,17 +1,8 @@
 {% extends "base.html" %}{% block title %}{{ ultimate_form.names[lang] if ultimate_form else t.alien_names.get(alien.slug, alien.name) }} — {{ t.brand }}{% endblock %}
 {% block content %}
-{% set detail_images = {
-  'heatblast': 'chamadepois.jpg',
-  'four-arms': 'quatrobraçosdepois.jpg',
-  'diamondhead': 'diamantedepois.jpg',
-  'xlr8': 'xlr8depois.jpg',
-  'ghostfreak': 'fantasmaticodepois.jpg',
-  'upgrade': 'ultratdepois.jpg',
-  'humungousaur': 'enormossaurodepois.jpeg',
-  'rath': 'rathdepois.jpeg'
-} %}
-{% set detail_image = detail_images.get(alien.slug, alien.image) %}
+{% set detail_image = alien.image %}
 {% if ultimate_form and alien.slug == 'humungousaur' %}{% set detail_image = 'enormosupremo.jpg' %}{% endif %}
+{% set transition_image = 'enormosupremo.jpg' if alien.slug == 'humungousaur' and not ultimate_form else '' %}
 <main class="workspace">
   <aside class="sidebar">
     <div class="folder">DNA_SIGNATURE</div>
@@ -31,7 +22,9 @@
         <h1>{{ ultimate_form.names[lang] if ultimate_form else t.alien_names.get(alien.slug, alien.name) }}</h1>
         <h3>{{ ultimate_form.species[lang] if ultimate_form else alien.species }}</h3>
         <p>{{ ultimate_form.descriptions[lang] if ultimate_form else alien['description_' + lang[:2]] }}</p>
-        {% if alien.slug == 'humungousaur' %}<a class="omni-button" href="{{ url_for('alien_detail', slug=alien.slug) if ultimate_form else url_for('alien_detail', slug=alien.slug, form='ultimate') }}">{{ t.normal_form if ultimate_form else t.activate_ultimate }}</a>{% endif %}
+        {% if alien.slug == 'humungousaur' %}
+        <a class="omni-button" href="{{ url_for('alien_detail', slug=alien.slug) if ultimate_form else url_for('alien_detail', slug=alien.slug, form='ultimate') }}"{% if transition_image %} data-ultimate-transition="{{ url_for('static', filename='images/' + transition_image) }}" data-transition-name="{{ t.alien_names.get(alien.slug, alien.name) }} Supremo"{% endif %}>{{ t.normal_form if ultimate_form else t.activate_ultimate }}</a>
+        {% endif %}
       </div>
     </div>
     <div class="info-grid">
