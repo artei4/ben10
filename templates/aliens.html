@@ -17,7 +17,7 @@
     <div class="alien-grid">
       {% for alien in aliens %}
       {% set selection_image = alien.selection_image or alien.image %}
-      <a class="alien-card" href="{{ url_for('alien_detail', slug=alien.slug) }}" data-alien-name="{{ t.alien_names.get(alien.slug, alien.name) }}" data-selection-image="{{ url_for('static', filename='images/' + selection_image) if selection_image else '' }}" aria-label="{{ t.alien_names.get(alien.slug, alien.name) }}">
+      <a class="alien-card" href="{{ url_for('alien_detail', slug=alien.slug, return_to=request.full_path) }}" data-alien-name="{{ t.alien_names.get(alien.slug, alien.name) }}" data-selection-image="{{ url_for('static', filename='images/' + selection_image) if selection_image else '' }}" aria-label="{{ t.alien_names.get(alien.slug, alien.name) }}">
         <div class="alien-art">
           {% if selection_image %}<img src="{{ url_for('static', filename='images/' + selection_image) }}" alt="{{ alien.name }}">{% else %}<div class="alien-art-placeholder">DNA</div>{% endif %}
         </div>
