@@ -3,6 +3,8 @@
 {% set detail_image = alien.image %}
 {% if ultimate_form %}{% set detail_image = alien.supreme_image or 'enormosupremo.jpg' %}{% endif %}
 {% set transition_image = alien.supreme_image if alien.slug == 'humungousaur' and not ultimate_form else '' %}
+{% set return_to = request.args.get('return_to', '') %}
+{% if not return_to.startswith('/') %}{% set return_to = url_for('aliens') %}{% endif %}
 <main class="workspace">
   <aside class="sidebar">
     <div class="folder">DNA_SIGNATURE</div>
@@ -11,7 +13,7 @@
     <a href="{{ url_for('settings') }}">⚙ {{ t.settings }}</a>
   </aside>
   <section class="content alien-page">
-    <a class="back-link alien-back" href="{{ url_for('aliens') }}" data-go-back="{{ url_for('aliens') }}">← {{ t.aliens }}</a>
+    <a class="back-link alien-back" href="{{ return_to }}">← {{ t.aliens }}</a>
     <div class="terminal-line">&gt; scan("{{ ultimate_form.names[lang] if ultimate_form else t.alien_names.get(alien.slug, alien.name) }}") → <span>DNA MATCH</span></div>
     <div class="alien-header">
       <div class="large-alien-art">
@@ -23,7 +25,7 @@
         <h3>{{ ultimate_form.species[lang] if ultimate_form else alien.species }}</h3>
         <p>{{ ultimate_form.descriptions[lang] if ultimate_form else alien['description_' + lang[:2]] }}</p>
         {% if alien.slug == 'humungousaur' %}
-        <a class="omni-button" href="{{ url_for('alien_detail', slug=alien.slug) if ultimate_form else url_for('alien_detail', slug=alien.slug, form='ultimate') }}"{% if transition_image %} data-ultimate-transition="{{ url_for('static', filename='images/' + transition_image) }}" data-transition-name="{{ t.alien_names.get(alien.slug, alien.name) }} Supremo"{% endif %}>{{ t.normal_form if ultimate_form else t.activate_ultimate }}</a>
+        <a class="omni-button" href="{{ url_for('alien_detail', slug=alien.slug, return_to=return_to) if ultimate_form else url_for('alien_detail', slug=alien.slug, form='ultimate', return_to=return_to) }}"{% if transition_image %} data-ultimate-transition="{{ url_for('static', filename='images/' + transition_image) }}" data-transition-name="{{ t.alien_names.get(alien.slug, alien.name) }} Supremo"{% endif %}>{{ t.normal_form if ultimate_form else t.activate_ultimate }}</a>
         {% endif %}
       </div>
     </div>
