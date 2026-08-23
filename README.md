@@ -46,12 +46,13 @@ A primeira tela permite criar uma conta. O login usa hash de senha.
 - Fantasmático
 
 ## Próximas etapas sugeridas
-1. Trocar placeholders por artes. (urgente)
-2. Aumentar o banco para todos os aliens. 
+1. Trocar placeholders por artes. (feito, mas ainda precisamos adicionar os proximos aliens)
+2. Aumentar o banco para todos os aliens. (estamos no proceso, tendo 12 aliens, 10 do classico e 2 do força alienigena)
 3. Criar filtros por série, espécie, poder e planeta. (já criei os das séries)
 4. Criar páginas dos diferentes Bens. (temos alguns temas personalizados, mas fazer parecidos com os aliens)
-5. Criar animações reais do Omnitrix. (so tentar)
+5. Criar animações reais do Omnitrix. (conseguimos)
 6. Criar modo ambiente/background por alien. (maneira ideia)
 7. Adicionar administração para cadastrar/editar aliens. (não)
 8. Melhorar autenticação e segurança antes de publicar. (aprender ainda)
-9. Criar algum botão para sair da tela das estatísticas dos aliens e voltar a pagina anterior
+9. Criar algum botão para sair da tela das estatísticas dos aliens e voltar a pagina anterior (feito com sucesso)
+10. tenho que fazer a ficha do besta em sua forma suprema
