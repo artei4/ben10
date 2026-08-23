@@ -1,8 +1,8 @@
 {% extends "base.html" %}{% block title %}{{ ultimate_form.names[lang] if ultimate_form else t.alien_names.get(alien.slug, alien.name) }} — {{ t.brand }}{% endblock %}
 {% block content %}
 {% set detail_image = alien.image %}
-{% if ultimate_form and alien.slug == 'humungousaur' %}{% set detail_image = 'enormosupremo.jpg' %}{% endif %}
-{% set transition_image = 'enormosupremo.jpg' if alien.slug == 'humungousaur' and not ultimate_form else '' %}
+{% if ultimate_form %}{% set detail_image = alien.supreme_image or 'enormosupremo.jpg' %}{% endif %}
+{% set transition_image = alien.supreme_image if alien.slug == 'humungousaur' and not ultimate_form else '' %}
 <main class="workspace">
   <aside class="sidebar">
     <div class="folder">DNA_SIGNATURE</div>
