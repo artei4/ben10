@@ -21,7 +21,7 @@
         <div class="alien-art">
           {% if selection_image %}<img src="{{ url_for('static', filename='images/' + selection_image) }}" alt="{{ alien.name }}">{% else %}<div class="alien-art-placeholder">DNA</div>{% endif %}
         </div>
-        <strong>{{ t.alien_names.get(alien.slug, alien.name) }}</strong><small>{{ alien.species }}</small>
+        <strong>{{ t.alien_names.get(alien.slug, alien.name) }}</strong><small>{{ t.species_names.get(alien.slug, alien.species) }}</small>
       </a>
       {% else %}
       <div class="empty">{{ t.no_aliens_found }}</div>
