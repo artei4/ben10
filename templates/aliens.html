@@ -1,5 +1,15 @@
 {% extends "base.html" %}{% block title %}{{ t.aliens }} — {{ t.brand }}{% endblock %}
 {% block content %}
+{% set selection_images = {
+  'heatblast': 'chamantes.jpg',
+  'four-arms': 'quatroantes.jpg',
+  'diamondhead': 'diamante.jpg',
+  'xlr8': 'xlantes.jpg',
+  'ghostfreak': 'fantasmaticoantes.jpg',
+  'upgrade': 'ultrantes.jpg',
+  'humungousaur': 'enormoantes.jpg',
+  'rath': 'rathantes.jpg'
+} %}
 <main class="workspace">
   <aside class="sidebar">
     <div class="folder">DATABASE</div>
@@ -16,7 +26,7 @@
     </form>
     <div class="alien-grid">
       {% for alien in aliens %}
-      {% set selection_image = alien.selection_image or alien.image %}
+      {% set selection_image = selection_images.get(alien.slug, alien.image) %}
       <a class="alien-card" href="{{ url_for('alien_detail', slug=alien.slug) }}" data-alien-name="{{ t.alien_names.get(alien.slug, alien.name) }}" data-selection-image="{{ url_for('static', filename='images/' + selection_image) if selection_image else '' }}" aria-label="{{ t.alien_names.get(alien.slug, alien.name) }}">
         <div class="alien-art">
           {% if selection_image %}<img src="{{ url_for('static', filename='images/' + selection_image) }}" alt="{{ alien.name }}">{% else %}<div class="alien-art-placeholder">DNA</div>{% endif %}
