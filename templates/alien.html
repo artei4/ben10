@@ -1,11 +1,54 @@
-{% extends "base.html" %}{% block title %}{{ ultimate_form.names[lang] if ultimate_form else t.alien_names.get(alien.slug, alien.name) }} — {{ t.brand }}{% endblock %}
+{% extends "base.html" %}
+{% set besta_ultimate = {
+  'names': {'pt_BR': 'Besta Supremo', 'en_US': 'Ultimate Wildmutt', 'es_ES': 'Bestia Suprema', 'fr_FR': 'Molosse Suprême'},
+  'species': {'pt_BR': 'Vulpimanceriano Evoluído', 'en_US': 'Evolved Vulpimancer', 'es_ES': 'Vulpimanceriano Evolucionado', 'fr_FR': 'Vulpimancer évolué'},
+  'descriptions': {
+    'pt_BR': 'Uma evolução extrema do Besta, desenvolvida para combate e sobrevivência, com corpo blindado, sentidos ampliados e espinhos ósseos que podem ser disparados contra os inimigos.',
+    'en_US': 'An extreme evolution of Wildmutt designed for combat and survival, with an armored body, enhanced senses, and bone spikes that can be fired at enemies.',
+    'es_ES': 'Una evolución extrema de Bestia diseñada para el combate y la supervivencia, con cuerpo blindado, sentidos mejorados y espinas óseas que puede disparar contra sus enemigos.',
+    'fr_FR': 'Une évolution extrême de Molosse conçue pour le combat et la survie, avec un corps blindé, des sens améliorés et des pointes osseuses pouvant être projetées sur ses ennemis.'
+  },
+  'abilities': {
+    'pt_BR': 'Superforça|Sentidos extremamente aguçados|Rastreamento por olfato|Armadura corporal|Espinhos ósseos disparáveis|Garras e presas reforçadas',
+    'en_US': 'Super strength|Extremely enhanced senses|Scent tracking|Body armor|Firable bone spikes|Reinforced claws and fangs',
+    'es_ES': 'Superfuerza|Sentidos extremadamente agudos|Rastreo por olfato|Armadura corporal|Espinas óseas disparables|Garras y colmillos reforzados',
+    'fr_FR': 'Super-force|Sens extrêmement développés|Pistage par l\'odorat|Armure corporelle|Pointes osseuses projetables|Griffes et crocs renforcés'
+  },
+  'weaknesses': {
+    'pt_BR': 'Menor mobilidade devido à armadura pesada|Os espinhos precisam ser repostos após serem disparados|A evolução prioriza combate físico e resistência',
+    'en_US': 'Reduced mobility because of the heavy armor|Spikes must regrow after being fired|The evolution prioritizes physical combat and durability',
+    'es_ES': 'Menor movilidad debido a la armadura pesada|Las espinas deben regenerarse después de ser disparadas|La evolución prioriza el combate físico y la resistencia',
+    'fr_FR': 'Mobilité réduite à cause de l\'armure lourde|Les pointes doivent repousser après avoir été projetées|L\'évolution privilégie le combat physique et la résistance'
+  },
+  'series': {
+    'pt_BR': 'Ben 10: Supremacia Alienígena',
+    'en_US': 'Ben 10: Ultimate Alien',
+    'es_ES': 'Ben 10: Supremacía Alienígena',
+    'fr_FR': 'Ben 10 : Ultimate Alien'
+  },
+  'first_appearances': {
+    'pt_BR': 'O Sacrifício Supremo',
+    'en_US': 'The Ultimate Sacrifice',
+    'es_ES': 'El Sacrificio Supremo',
+    'fr_FR': 'Le Sacrifice Ultime'
+  },
+  'scenarios': {
+    'pt_BR': 'A Ultimatrix submeteu o DNA Vulpimanceriano a milhões de anos teóricos de sobrevivência e combate. A evolução resultante favoreceu blindagem, sentidos ainda mais precisos e armas ósseas para transformar o Besta em um caçador especializado.',
+    'en_US': 'The Ultimatrix subjected Vulpimancer DNA to millions of theoretical years of survival and combat. The resulting evolution favored armor, sharper senses, and bone weapons, turning Wildmutt into a specialized hunter.',
+    'es_ES': 'La Ultimatrix sometió el ADN Vulpimanceriano a millones de años teóricos de supervivencia y combate. La evolución resultante favoreció la armadura, sentidos aún más precisos y armas óseas, convirtiendo a Bestia en un cazador especializado.',
+    'fr_FR': 'L\'Ultimatrix a soumis l\'ADN vulpimancien à des millions d\'années théoriques de survie et de combat. L\'évolution résultante a favorisé l\'armure, des sens plus précis et des armes osseuses, transformant Molosse en chasseur spécialisé.'
+  }
+} %}
+{% set is_besta_ultimate = alien.slug == 'wildmutt' and request.args.get('form') == 'ultimate' %}
+{% set active_ultimate = besta_ultimate if is_besta_ultimate else ultimate_form %}
+{% block title %}{{ active_ultimate.names[lang] if active_ultimate else t.alien_names.get(alien.slug, alien.name) }} — {{ t.brand }}{% endblock %}
 {% block content %}
 {% set detail_image = alien.image %}
-{% if ultimate_form %}{% set detail_image = alien.supreme_image or 'enormosupremo.jpg' %}{% endif %}
-{% set transition_image = alien.supreme_image if alien.slug == 'humungousaur' and not ultimate_form else '' %}
+{% if active_ultimate %}{% set detail_image = 'bestasupremo.jpg' if alien.slug == 'wildmutt' else (alien.supreme_image or 'enormosupremo.jpg') %}{% endif %}
+{% set transition_image = 'bestasupremo.jpg' if alien.slug == 'wildmutt' and not active_ultimate else (alien.supreme_image if alien.slug == 'humungousaur' and not active_ultimate else '') %}
 {% set return_to = request.args.get('return_to', '') %}
 {% if not return_to.startswith('/') %}{% set return_to = url_for('aliens') %}{% endif %}
-{% set translated_series = ultimate_form.series[lang] if ultimate_form else t.series_names.get(alien.series, alien.series) %}
+{% set translated_series = active_ultimate.series[lang] if active_ultimate else t.series_names.get(alien.series, alien.series) %}
 <main class="workspace">
   <aside class="sidebar">
     <div class="folder">DNA_SIGNATURE</div>
@@ -15,31 +58,31 @@
   </aside>
   <section class="content alien-page">
     <a class="back-link alien-back" href="{{ return_to }}">← {{ t.aliens }}</a>
-    <div class="terminal-line">&gt; scan("{{ ultimate_form.names[lang] if ultimate_form else t.alien_names.get(alien.slug, alien.name) }}") → <span>DNA MATCH</span></div>
+    <div class="terminal-line">&gt; scan("{{ active_ultimate.names[lang] if active_ultimate else t.alien_names.get(alien.slug, alien.name) }}") → <span>DNA MATCH</span></div>
     <div class="alien-header">
       <div class="large-alien-art">
-        {% if detail_image %}<img src="{{ url_for('static', filename='images/' + detail_image) }}" alt="{{ alien.name }}">{% else %}<div class="alien-art-placeholder">DNA</div>{% endif %}
+        {% if detail_image %}<img src="{{ url_for('static', filename='images/' + detail_image) }}" alt="{{ active_ultimate.names[lang] if active_ultimate else alien.name }}">{% else %}<div class="alien-art-placeholder">DNA</div>{% endif %}
       </div>
       <div>
         <div class="status">DNA SIGNATURE DETECTED</div>
-        <h1>{{ ultimate_form.names[lang] if ultimate_form else t.alien_names.get(alien.slug, alien.name) }}</h1>
-        <h3>{{ ultimate_form.species[lang] if ultimate_form else t.species_names.get(alien.slug, alien.species) }}</h3>
-        <p>{{ ultimate_form.descriptions[lang] if ultimate_form else alien['description_' + lang[:2]] }}</p>
-        {% if alien.slug == 'humungousaur' %}
-        <a class="omni-button" href="{{ url_for('alien_detail', slug=alien.slug, return_to=return_to) if ultimate_form else url_for('alien_detail', slug=alien.slug, form='ultimate', return_to=return_to) }}"{% if transition_image %} data-ultimate-transition="{{ url_for('static', filename='images/' + transition_image) }}" data-transition-name="{{ t.alien_names.get(alien.slug, alien.name) }} Supremo"{% endif %}>{{ t.normal_form if ultimate_form else t.activate_ultimate }}</a>
+        <h1>{{ active_ultimate.names[lang] if active_ultimate else t.alien_names.get(alien.slug, alien.name) }}</h1>
+        <h3>{{ active_ultimate.species[lang] if active_ultimate else t.species_names.get(alien.slug, alien.species) }}</h3>
+        <p>{{ active_ultimate.descriptions[lang] if active_ultimate else alien['description_' + lang[:2]] }}</p>
+        {% if alien.slug in ['humungousaur', 'wildmutt'] %}
+        <a class="omni-button" href="{{ url_for('alien_detail', slug=alien.slug, return_to=return_to) if active_ultimate else url_for('alien_detail', slug=alien.slug, form='ultimate', return_to=return_to) }}"{% if transition_image %} data-ultimate-transition="{{ url_for('static', filename='images/' + transition_image) }}" data-transition-name="{{ t.alien_names.get(alien.slug, alien.name) }} Supremo"{% endif %}>{{ t.normal_form if active_ultimate else t.activate_ultimate }}</a>
         {% endif %}
       </div>
     </div>
     <div class="info-grid">
-      <div class="info-box"><label>{{ t.species }}</label><strong>{{ ultimate_form.species[lang] if ultimate_form else t.species_names.get(alien.slug, alien.species) }}</strong></div>
+      <div class="info-box"><label>{{ t.species }}</label><strong>{{ active_ultimate.species[lang] if active_ultimate else t.species_names.get(alien.slug, alien.species) }}</strong></div>
       <div class="info-box"><label>{{ t.homeworld }}</label><strong>{{ t.homeworld_names.get(alien.slug, alien.homeworld) }}</strong></div>
       <div class="info-box"><label>{{ t.series }}</label><strong>{{ translated_series }}</strong></div>
-      <div class="info-box"><label>{{ t.first_appearance }}</label><strong>{{ ultimate_form.first_appearances[lang] if ultimate_form else t.first_appearance_names.get(alien.slug, alien.first_appearance) }}</strong></div>
+      <div class="info-box"><label>{{ t.first_appearance }}</label><strong>{{ active_ultimate.first_appearances[lang] if active_ultimate else t.first_appearance_names.get(alien.slug, alien.first_appearance) }}</strong></div>
     </div>
-    {% if ultimate_form %}<section class="data-box"><h2>{{ t.evolution_scenario }}</h2><p>{{ ultimate_form.scenarios[lang] }}</p></section>{% endif %}
+    {% if active_ultimate %}<section class="data-box"><h2>{{ t.evolution_scenario }}</h2><p>{{ active_ultimate.scenarios[lang] }}</p></section>{% endif %}
     <div class="two-columns">
-      <section class="data-box"><h2>{{ t.abilities }}</h2><ul>{% for x in (ultimate_form.abilities[lang] if ultimate_form else alien['abilities_' + lang[:2]]).split('|') %}<li>{{ x }}</li>{% endfor %}</ul></section>
-      <section class="data-box"><h2>{{ t.weaknesses }}</h2><ul>{% for x in (ultimate_form.weaknesses[lang] if ultimate_form else alien['weaknesses_' + lang[:2]]).split('|') %}<li>{{ x }}</li>{% endfor %}</ul></section>
+      <section class="data-box"><h2>{{ t.abilities }}</h2><ul>{% for x in (active_ultimate.abilities[lang] if active_ultimate else alien['abilities_' + lang[:2]]).split('|') %}<li>{{ x }}</li>{% endfor %}</ul></section>
+      <section class="data-box"><h2>{{ t.weaknesses }}</h2><ul>{% for x in (active_ultimate.weaknesses[lang] if active_ultimate else alien['weaknesses_' + lang[:2]]).split('|') %}<li>{{ x }}</li>{% endfor %}</ul></section>
     </div>
   </section>
 </main>
