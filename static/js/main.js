@@ -9,12 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function playOmnitrixTransition({ target, image, name, label = "DNA SELECTED", variant = "normal" }) {
     if (!target) return false;
 
-    // Mesmo com movimento reduzido, mantemos a navegação funcionando.
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      window.location.href = target;
-      return true;
-    }
-
     const overlay = document.createElement("div");
     overlay.className = `omnitrix-selection omnitrix-${variant}`;
     overlay.setAttribute("role", "status");
@@ -37,7 +31,6 @@ document.addEventListener("DOMContentLoaded", () => {
     body.classList.add("omnitrix-active");
     document.documentElement.classList.add("omnitrix-lock-scroll");
 
-    // A forma Suprema tem uma sequência um pouco mais longa e agressiva.
     const duration = variant === "ultimate" ? 1350 : 900;
     window.setTimeout(() => {
       window.location.href = target;
@@ -71,7 +64,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Volta exatamente para a coleção/página de origem sempre que possível.
   document.querySelectorAll("[data-go-back]").forEach(button => {
     button.addEventListener("click", event => {
       event.preventDefault();
@@ -84,7 +76,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Compatibilidade com formulários antigos: o servidor é a autoridade final do redirecionamento.
   document.querySelectorAll(".auth-redirect-form").forEach(form => {
     form.addEventListener("submit", async event => {
       event.preventDefault();
