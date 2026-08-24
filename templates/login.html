@@ -6,7 +6,7 @@
     <div class="status">{{ t.online }}</div>
     <h1>{{ t.welcome }}</h1>
     {% if error %}<div class="alert">{{ t[error] }}</div>{% endif %}
-    <form method="post">
+    <form method="post" class="auth-redirect-form" data-success-url="{{ url_for('aliens') }}">
       <label>{{ t.username }}</label><input name="username" required autocomplete="username">
       <label>{{ t.password }}</label><input type="password" name="password" required autocomplete="current-password">
       <button class="omni-button" type="submit">{{ t.login }}</button>
