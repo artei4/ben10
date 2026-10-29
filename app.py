@@ -3,13 +3,24 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
 from pathlib import Path
 import json
+import os
+from supabase import create_client
 
 BASE_DIR = Path(__file__).resolve().parent
 DB_PATH = BASE_DIR / "database" / "omnitrix.db"
 TRANSLATIONS = BASE_DIR / "translations"
 
 app = Flask(__name__)
-app.secret_key = "CHANGE_THIS_SECRET_KEY"
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev-only-change-this-key")
+
+SUPABASE_URL = os.environ.get("SUPABASE_URL")
+# Prefer the new Supabase secret key; the legacy variable remains supported for migration.
+SUPABASE_KEY = os.environ.get("SUPABASE_SECRET_KEY") or os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+
+def get_supabase():
+    if not SUPABASE_URL or not SUPABASE_KEY:
+        raise RuntimeError("Configure SUPABASE_URL and SUPABASE_SECRET_KEY in the environment.")
+    return create_client(SUPABASE_URL, SUPABASE_KEY)
 
 THEMES = {
     "classic": {"name": "Ben 10 Classic", "primary": "#9cff00", "secondary": "#163800"},
@@ -99,14 +110,20 @@ ULTIMATE_FORMS = {
 }
 
 def db():
-    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
-    conn = sqlite3.connect(DB_PATH)
+    # Vercel's filesystem is read-only; alien data is read from the committed SQLite file.
+    if os.environ.get("VERCEL"):
+        conn = sqlite3.connect(f"file:{DB_PATH.as_posix()}?mode=ro", uri=True)
+    else:
+        DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+        conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     return conn
 
 def init_db():
+    # Initialization is for local development only, never run during serverless imports.
     DB_PATH.parent.mkdir(parents=True, exist_ok=True)
-    conn = db()
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
     conn.executescript("""
     CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -294,10 +311,21 @@ def login():
     if request.method == "POST":
         username = request.form.get("username", "").strip()
         password = request.form.get("password", "")
-        conn = db()
-        user = conn.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchone()
-        conn.close()
-        if user and check_password_hash(user["password"], password):
+        try:
+            response = (
+                get_supabase().table("app_users")
+                .select("username, password_hash")
+                .eq("username", username)
+                .limit(1)
+                .execute()
+            )
+            users = response.data or []
+            user = users[0] if users else None
+        except Exception:
+            app.logger.exception("Supabase login lookup failed")
+            user = None
+
+        if user and check_password_hash(user["password_hash"], password):
             session["username"] = username
             return redirect(url_for("dashboard"))
         error = "invalid_credentials"
@@ -313,15 +341,26 @@ def register():
             error = "invalid_register"
         else:
             try:
-                conn = db()
-                conn.execute("INSERT INTO users (username, password) VALUES (?, ?)",
-                             (username, generate_password_hash(password)))
-                conn.commit()
-                conn.close()
-                session["username"] = username
-                return redirect(url_for("dashboard"))
-            except sqlite3.IntegrityError:
-                error = "user_exists"
+                supabase = get_supabase()
+                existing = (
+                    supabase.table("app_users")
+                    .select("id")
+                    .eq("username", username)
+                    .limit(1)
+                    .execute()
+                )
+                if existing.data:
+                    error = "user_exists"
+                else:
+                    supabase.table("app_users").insert({
+                        "username": username,
+                        "password_hash": generate_password_hash(password),
+                    }).execute()
+                    session["username"] = username
+                    return redirect(url_for("dashboard"))
+            except Exception:
+                app.logger.exception("Supabase registration failed")
+                error = "invalid_register"
     return render_template("register.html", error=error)
 
 @app.route("/logout")
@@ -423,7 +462,6 @@ def api_aliens():
     conn.close()
     return jsonify([dict(r) for r in rows])
 
-init_db()
-
 if __name__ == "__main__":
+    init_db()
     app.run(debug=True)
