@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     control.addEventListener("mouseleave", () => body.dataset.scan = "");
   });
 
-  function playOmnitrixTransition({ target, image, name, label = "DNA SELECTED", variant = "normal" }) {
+  function playOmnitrixTransition({ target, image, name, label = "DNA SELECTED", variant = "normal", replace = false }) {
     if (!target) return false;
 
     const overlay = document.createElement("div");
@@ -33,9 +33,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const duration = variant === "ultimate" ? 1350 : 900;
     window.setTimeout(() => {
-      window.location.href = target;
+      // replace: a tela de entrada não fica no histórico, senão o botão "voltar" cairia nela de novo.
+      if (replace) window.location.replace(target);
+      else window.location.href = target;
     }, duration);
     return true;
+  }
+
+  const entry = document.querySelector("[data-omnitrix-entry]");
+  if (entry) {
+    playOmnitrixTransition({
+      target: entry.getAttribute("href"),
+      name: entry.dataset.name || "ONLINE",
+      label: entry.dataset.label || "OMNITRIX",
+      replace: true
+    });
   }
 
   document.querySelectorAll(".alien-card").forEach(card => {
@@ -72,34 +84,6 @@ document.addEventListener("DOMContentLoaded", () => {
         window.history.back();
       } else if (fallback) {
         window.location.href = fallback;
-      }
-    });
-  });
-
-  document.querySelectorAll(".auth-redirect-form").forEach(form => {
-    form.addEventListener("submit", async event => {
-      event.preventDefault();
-      const button = form.querySelector("button[type='submit']");
-      if (button) button.disabled = true;
-      try {
-        const response = await fetch(form.action || window.location.href, {
-          method: "POST",
-          body: new FormData(form),
-          credentials: "same-origin",
-          redirect: "follow"
-        });
-        if (response.redirected) {
-          window.location.href = form.dataset.successUrl || "/aliens";
-          return;
-        }
-        const html = await response.text();
-        document.open();
-        document.write(html);
-        document.close();
-      } catch (error) {
-        form.submit();
-      } finally {
-        if (button) button.disabled = false;
       }
     });
   });

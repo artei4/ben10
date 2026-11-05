@@ -1,10 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
-from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
 from pathlib import Path
 import json
 import os
-from supabase import create_client
 
 BASE_DIR = Path(__file__).resolve().parent
 DB_PATH = BASE_DIR / "database" / "omnitrix.db"
@@ -12,15 +10,6 @@ TRANSLATIONS = BASE_DIR / "translations"
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev-only-change-this-key")
-
-SUPABASE_URL = os.environ.get("SUPABASE_URL")
-# Prefer the new Supabase secret key; the legacy variable remains supported for migration.
-SUPABASE_KEY = os.environ.get("SUPABASE_SECRET_KEY") or os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
-
-def get_supabase():
-    if not SUPABASE_URL or not SUPABASE_KEY:
-        raise RuntimeError("Configure SUPABASE_URL and SUPABASE_SECRET_KEY in the environment.")
-    return create_client(SUPABASE_URL, SUPABASE_KEY)
 
 THEMES = {
     "classic": {"name": "Ben 10 Classic", "primary": "#9cff00", "secondary": "#163800"},
@@ -125,12 +114,6 @@ def init_db():
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     conn.executescript("""
-    CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT UNIQUE NOT NULL,
-        password TEXT NOT NULL
-    );
-
     CREATE TABLE IF NOT EXISTS aliens (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         slug TEXT UNIQUE NOT NULL,
@@ -161,7 +144,7 @@ def init_db():
             {
                 "slug":"heatblast","name":"Heatblast","species":"Pyronite","homeworld":"Pyros",
                 "series":"Ben 10 (Classic)","first_appearance":"And Then There Were 10",
-                "image":"heatblast.svg",
+                "image":"chamadepois.jpg",
                 "description_pt":"Um Pyronite capaz de gerar e controlar fogo e calor.",
                 "description_en":"A Pyronite capable of generating and controlling fire and heat.",
                 "description_es":"Un Pyronite capaz de generar y controlar fuego y calor.",
@@ -178,7 +161,7 @@ def init_db():
             {
                 "slug":"four-arms","name":"Four Arms","species":"Tetramand","homeworld":"Khoros",
                 "series":"Ben 10 (Classic)","first_appearance":"And Then There Were 10",
-                "image":"four-arms.svg",
+                "image":"quatrobraçosdepois.jpg",
                 "description_pt":"Um Tetramand extremamente forte, com quatro braços e grande resistência física.",
                 "description_en":"An extremely strong Tetramand with four arms and great physical endurance.",
                 "description_es":"Un Tetramand extremadamente fuerte con cuatro brazos y gran resistencia física.",
@@ -212,7 +195,7 @@ def init_db():
             {
                 "slug":"xlr8","name":"XLR8","species":"Kineceleran","homeworld":"Kinet",
                 "series":"Ben 10 (Classic)","first_appearance":"And Then There Were 10",
-                "image":"xlr8.svg",
+                "image":"xlr8depois.jpg",
                 "description_pt":"Um Kineceleran cuja velocidade permite correr em velocidades extraordinárias.",
                 "description_en":"A Kineceleran whose speed allows it to move at extraordinary velocities.",
                 "description_es":"Un Kineceleran cuya velocidad le permite moverse a velocidades extraordinarias.",
@@ -229,7 +212,7 @@ def init_db():
             {
                 "slug":"ghostfreak","name":"Ghostfreak","species":"Ectonurite","homeworld":"Anur Phaetos",
                 "series":"Ben 10 (Classic)","first_appearance":"Permanent Retirement",
-                "image":"ghostfreak.svg",
+                "image":"fantasmaticodepois.jpg",
                 "description_pt":"Um Ectonurite capaz de atravessar matéria, ficar invisível e possuir seres vivos.",
                 "description_en":"An Ectonurite capable of phasing through matter, becoming invisible, and possessing living beings.",
                 "description_es":"Un Ectonurite capaz de atravesar materia, volverse invisible y poseer seres vivos.",
@@ -246,7 +229,7 @@ def init_db():
             {
                 "slug":"upgrade","name":"Upgrade","species":"Galvanic Mechamorph","homeworld":"Galvan B",
                 "series":"Ben 10 (Classic)","first_appearance":"Permanent Retirement",
-                "image":"upgrade.svg",
+                "image":"ultratdepois.jpg",
                 "description_pt":"Um organismo tecno-orgânico capaz de se fundir e aprimorar máquinas.",
                 "description_en":"A techno-organic being capable of merging with and enhancing machines.",
                 "description_es":"Un ser tecno-orgánico capaz de fusionarse con máquinas y mejorarlas.",
@@ -298,80 +281,15 @@ def inject_globals():
         "lang": lang,
         "theme": theme,
         "themes": THEMES,
-        "user": session.get("username")
     }
 
 @app.route("/")
 def index():
-    return redirect(url_for("dashboard" if "username" in session else "login"))
-
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    error = None
-    if request.method == "POST":
-        username = request.form.get("username", "").strip()
-        password = request.form.get("password", "")
-        try:
-            response = (
-                get_supabase().table("app_users")
-                .select("username, password_hash")
-                .eq("username", username)
-                .limit(1)
-                .execute()
-            )
-            users = response.data or []
-            user = users[0] if users else None
-        except Exception:
-            app.logger.exception("Supabase login lookup failed")
-            user = None
-
-        if user and check_password_hash(user["password_hash"], password):
-            session["username"] = username
-            return redirect(url_for("dashboard"))
-        error = "invalid_credentials"
-    return render_template("login.html", error=error)
-
-@app.route("/register", methods=["GET", "POST"])
-def register():
-    error = None
-    if request.method == "POST":
-        username = request.form.get("username", "").strip()
-        password = request.form.get("password", "")
-        if len(username) < 3 or len(password) < 4:
-            error = "invalid_register"
-        else:
-            try:
-                supabase = get_supabase()
-                existing = (
-                    supabase.table("app_users")
-                    .select("id")
-                    .eq("username", username)
-                    .limit(1)
-                    .execute()
-                )
-                if existing.data:
-                    error = "user_exists"
-                else:
-                    supabase.table("app_users").insert({
-                        "username": username,
-                        "password_hash": generate_password_hash(password),
-                    }).execute()
-                    session["username"] = username
-                    return redirect(url_for("dashboard"))
-            except Exception:
-                app.logger.exception("Supabase registration failed")
-                error = "invalid_register"
-    return render_template("register.html", error=error)
-
-@app.route("/logout")
-def logout():
-    session.clear()
-    return redirect(url_for("login"))
+    # Tela de entrada: só dispara a animação do Omnitrix e leva para o site.
+    return render_template("enter.html")
 
 @app.route("/dashboard")
 def dashboard():
-    if "username" not in session:
-        return redirect(url_for("login"))
     conn = db()
     recent = conn.execute("SELECT * FROM aliens ORDER BY id LIMIT 6").fetchall()
     conn.close()
@@ -379,8 +297,6 @@ def dashboard():
 
 @app.route("/aliens")
 def aliens():
-    if "username" not in session:
-        return redirect(url_for("login"))
     q = request.args.get("q", "").strip()
     if not q:
         conn = db()
@@ -404,8 +320,6 @@ def aliens():
 
 @app.route("/aliens/<collection_slug>")
 def aliens_by_collection(collection_slug):
-    if "username" not in session:
-        return redirect(url_for("login"))
 
     collection = next((item for item in ALIEN_COLLECTIONS if item["slug"] == collection_slug), None)
     if not collection:
@@ -428,8 +342,6 @@ def aliens_by_collection(collection_slug):
 
 @app.route("/alien/<slug>")
 def alien_detail(slug):
-    if "username" not in session:
-        return redirect(url_for("login"))
     conn = db()
     alien = conn.execute("SELECT * FROM aliens WHERE slug = ?", (slug,)).fetchone()
     conn.close()

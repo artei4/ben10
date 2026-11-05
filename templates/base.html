@@ -11,14 +11,11 @@
 <div class="scanlines"></div>
 <header class="topbar">
   <a class="brand" href="{{ url_for('dashboard') }}">◉ {{ t.brand }}</a>
-  {% if user %}
   <nav>
     <a href="{{ url_for('dashboard') }}">{{ t.dashboard }}</a>
     <a href="{{ url_for('aliens') }}">{{ t.aliens }}</a>
     <a href="{{ url_for('settings') }}">⚙ {{ t.settings }}</a>
-    <a href="{{ url_for('logout') }}">↪ {{ t.logout }}</a>
   </nav>
-  {% endif %}
 </header>
 {% block content %}{% endblock %}
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>

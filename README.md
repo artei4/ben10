@@ -27,11 +27,11 @@ Primeira versão do site/fundação.
 5. Abra:
    `http://127.0.0.1:5000`
 
-O banco `database/omnitrix.db` é criado automaticamente.
+O banco `database/omnitrix.db` é criado automaticamente. Se as imagens dos aliens não aparecerem, rode `python database/migrate_alien_images.py` (pode ser executado mais de uma vez).
 
-## Usuário
+## Entrada
 
-A primeira tela permite criar uma conta. O login usa hash de senha.
+Não há mais login nem criação de conta. Ao abrir o site (`/`), a animação do Omnitrix é executada e leva direto para a coleção de aliens.
 
 ## Idiomas (foram todos atualizados e agora estão funcionandos)
 - pt_BR 
