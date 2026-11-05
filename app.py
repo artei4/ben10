@@ -161,7 +161,7 @@ def init_db():
             {
                 "slug":"four-arms","name":"Four Arms","species":"Tetramand","homeworld":"Khoros",
                 "series":"Ben 10 (Classic)","first_appearance":"And Then There Were 10",
-                "image":"quatrobraçosdepois.jpg",
+                "image":"quatrobracosdepois.jpg",
                 "description_pt":"Um Tetramand extremamente forte, com quatro braços e grande resistência física.",
                 "description_en":"An extremely strong Tetramand with four arms and great physical endurance.",
                 "description_es":"Un Tetramand extremadamente fuerte con cuatro brazos y gran resistencia física.",
@@ -348,7 +348,7 @@ def alien_detail(slug):
     if not alien:
         return "Alien not found", 404
     ultimate_form = ULTIMATE_FORMS.get(slug) if request.args.get("form") == "ultimate" else None
-    return render_template("alien.html", alien=alien, ultimate_form=ultimate_form)
+    return render_template("alien.html", alien=alien, ultimate_form=ultimate_form, ultimate_forms=ULTIMATE_FORMS)
 
 @app.route("/settings", methods=["GET", "POST"])
 def settings():

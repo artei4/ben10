@@ -6,7 +6,7 @@ DB_PATH = BASE_DIR / "database" / "omnitrix.db"
 
 IMAGE_PAIRS = {
     "heatblast": ("chamantes.jpg", "chamadepois.jpg"),
-    "four-arms": ("quatroantes.jpg", "quatrobraçosdepois.jpg"),
+    "four-arms": ("quatroantes.jpg", "quatrobracosdepois.jpg"),
     "diamondhead": ("diamante.jpg", "diamantedepois.jpg"),
     "xlr8": ("xlantes.jpg", "xlr8depois.jpg"),
     "ghostfreak": ("fantasmaticoantes.jpg", "fantasmaticodepois.jpg"),

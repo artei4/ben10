@@ -46,30 +46,31 @@
 {% set detail_image = alien.image %}
 {% if active_ultimate %}{% set detail_image = 'bestasupremo.jpg' if alien.slug == 'wildmutt' else (alien.supreme_image or 'enormosupremo.jpg') %}{% endif %}
 {% set transition_image = 'bestasupremo.jpg' if alien.slug == 'wildmutt' and not active_ultimate else (alien.supreme_image if alien.slug == 'humungousaur' and not active_ultimate else '') %}
+{% set ultimate_source = besta_ultimate if alien.slug == 'wildmutt' else ultimate_forms.get(alien.slug) %}
 {% set return_to = request.args.get('return_to', '') %}
 {% if not return_to.startswith('/') %}{% set return_to = url_for('aliens') %}{% endif %}
 {% set translated_series = active_ultimate.series[lang] if active_ultimate else t.series_names.get(alien.series, alien.series) %}
 <main class="workspace">
   <aside class="sidebar">
-    <div class="folder">DNA_SIGNATURE</div>
-    <a href="{{ url_for('dashboard') }}">⌂ {{ t.dashboard }}</a>
+    <div class="folder">{{ t.folder_dna_signature }}</div>
+    <a href="{{ url_for('aliens') }}">⌂ {{ t.dashboard }}</a>
     <a href="{{ url_for('aliens') }}">🧬 {{ t.aliens }}</a>
     <a href="{{ url_for('settings') }}">⚙ {{ t.settings }}</a>
   </aside>
   <section class="content alien-page">
     <a class="back-link alien-back" href="{{ return_to }}">← {{ t.aliens }}</a>
-    <div class="terminal-line">&gt; scan("{{ active_ultimate.names[lang] if active_ultimate else t.alien_names.get(alien.slug, alien.name) }}") → <span>DNA MATCH</span></div>
+    <div class="terminal-line">&gt; scan("{{ active_ultimate.names[lang] if active_ultimate else t.alien_names.get(alien.slug, alien.name) }}") → <span>{{ t.dna_match }}</span></div>
     <div class="alien-header">
       <div class="large-alien-art">
         {% if detail_image %}<img src="{{ url_for('static', filename='images/' + detail_image) }}" alt="{{ active_ultimate.names[lang] if active_ultimate else alien.name }}">{% else %}<div class="alien-art-placeholder">DNA</div>{% endif %}
       </div>
       <div>
-        <div class="status">DNA SIGNATURE DETECTED</div>
+        <div class="status">{{ t.dna_detected }}</div>
         <h1>{{ active_ultimate.names[lang] if active_ultimate else t.alien_names.get(alien.slug, alien.name) }}</h1>
         <h3>{{ active_ultimate.species[lang] if active_ultimate else t.species_names.get(alien.slug, alien.species) }}</h3>
         <p>{{ active_ultimate.descriptions[lang] if active_ultimate else alien['description_' + lang[:2]] }}</p>
         {% if alien.slug in ['humungousaur', 'wildmutt'] %}
-        <a class="omni-button" href="{{ url_for('alien_detail', slug=alien.slug, return_to=return_to) if active_ultimate else url_for('alien_detail', slug=alien.slug, form='ultimate', return_to=return_to) }}"{% if transition_image %} data-ultimate-transition="{{ url_for('static', filename='images/' + transition_image) }}" data-transition-name="{{ t.alien_names.get(alien.slug, alien.name) }} Supremo"{% endif %}>{{ t.normal_form if active_ultimate else t.activate_ultimate }}</a>
+        <a class="omni-button" href="{{ url_for('alien_detail', slug=alien.slug, return_to=return_to) if active_ultimate else url_for('alien_detail', slug=alien.slug, form='ultimate', return_to=return_to) }}"{% if transition_image %} data-ultimate-transition="{{ url_for('static', filename='images/' + transition_image) }}" data-transition-name="{{ ultimate_source.names[lang] if ultimate_source else '' }}" data-transition-label="{{ t.ultimatrix_evolution }}"{% endif %}>{{ t.normal_form if active_ultimate else t.activate_ultimate }}</a>
         {% endif %}
       </div>
     </div>

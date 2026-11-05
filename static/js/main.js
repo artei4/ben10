@@ -55,7 +55,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const target = card.getAttribute("href");
       const image = card.dataset.selectionImage || card.querySelector("img")?.src || "";
       const name = card.dataset.alienName || "ALIEN";
-      if (!playOmnitrixTransition({ target, image, name })) return;
+      const label = card.dataset.transitionLabel;
+      if (!playOmnitrixTransition({ target, image, name, label })) return;
       event.preventDefault();
     });
   });
@@ -69,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
         target,
         image,
         name,
-        label: "ULTIMATRIX // EVOLUTION",
+        label: button.dataset.transitionLabel || "ULTIMATRIX // EVOLUTION",
         variant: "ultimate"
       })) return;
       event.preventDefault();

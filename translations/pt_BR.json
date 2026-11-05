@@ -30,7 +30,7 @@
   "create_account": "Criar conta",
   "back": "Voltar",
   "alien_names": {"heatblast":"Chama","wildmutt":"Besta","four-arms":"Quatro Braços","diamondhead":"Diamante","xlr8":"XLR8","grey-matter":"Massa Cinzenta","ghostfreak":"Fantasmático","upgrade":"Ultra T","stinkfly":"Insectóide","ripjaws":"Aquático","humungousaur":"Enormossauro","rath":"Rath"},
-  "species_names": {"wildmutt":"Vulpimanceriano","grey-matter":"Galvaniano","stinkfly":"Lepidopterrano","ripjaws":"Piscciss Volann"},
+  "species_names": {"heatblast":"Pyronite","four-arms":"Tetramand","diamondhead":"Petrosapien","xlr8":"Kineceleran","ghostfreak":"Ectonurite","upgrade":"Mecamorfo Galvânico","humungousaur":"Vaxassauriano","rath":"Appoplexiano","wildmutt":"Vulpimanceriano","grey-matter":"Galvaniano","stinkfly":"Lepidopterrano","ripjaws":"Piscciss Volann"},
   "homeworld_names": {"heatblast":"Pyros","wildmutt":"Vulpin","four-arms":"Khoros","diamondhead":"Petropia","xlr8":"Kinet","grey-matter":"Galvan Prime","ghostfreak":"Anur Phaetos","upgrade":"Galvan B","stinkfly":"Lepidopterra","ripjaws":"Piscciss","humungousaur":"Terradino","rath":"Appoplexia"},
   "first_appearance_names": {"heatblast":"E Então Eram 10","wildmutt":"E Então Eram 10","four-arms":"E Então Eram 10","diamondhead":"E Então Eram 10","xlr8":"E Então Eram 10","grey-matter":"E Então Eram 10","ghostfreak":"Aposentadoria Permanente","upgrade":"Aposentadoria Permanente","stinkfly":"Washington B.C.","ripjaws":"O Kraken","humungousaur":"O Retorno de Ben 10 — Parte 1","rath":"A Trapaça de Rath"},
   "series_names": {"Ben 10 (Classic)":"Ben 10 (Clássico)","Ben 10: Alien Force":"Ben 10: Força Alienígena","Ben 10: Ultimate Alien":"Ben 10: Supremacia Alienígena","Ben 10: Omniverse":"Ben 10: Omniverse"},
@@ -51,5 +51,14 @@
   "ultimate_alien_aliens":"Supremacia Alienígena",
   "ultimate_alien_aliens_description":"As transformações e formas supremas.",
   "omniverse_aliens":"Omniverse",
-  "omniverse_aliens_description":"As transformações disponíveis em Omniverse."
+  "omniverse_aliens_description":"As transformações disponíveis em Omniverse.",
+  "folder_database":"BANCO_DE_DADOS",
+  "folder_settings":"CONFIGURAÇÕES",
+  "folder_dna_signature":"ASSINATURA_DE_DNA",
+  "dna_collection":"COLEÇÃO DE DNA",
+  "dna_match":"DNA COMPATÍVEL",
+  "dna_detected":"ASSINATURA DE DNA DETECTADA",
+  "apply":"APLICAR",
+  "dna_selected":"DNA SELECIONADO",
+  "ultimatrix_evolution":"ULTIMATRIX // EVOLUÇÃO"
 }
